@@ -6,11 +6,28 @@ import thunk from 'redux-thunk';
 import reducers from './reducers';
 
 
+// components
+import SignIn from './components/signIn';
+import MainPage from './components/MainPage';
+
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+
+
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <Provider store={store}>
-
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/MainPage" element={<MainPage />} />
+        </Routes>
+      </BrowserRouter>
   </Provider>,
   document.getElementById('root'),
 );
+

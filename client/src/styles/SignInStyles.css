@@ -1,0 +1,126 @@
+* {
+    margin-top: 0px;
+    margin-left: 0px;
+}
+
+.signInContainerParent {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    background-color: rgb(229 229 229);
+}
+
+
+.signInContainer {
+    width: 500px;
+    height: 600px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.signInContainer h1 {
+    font-family: sans-serif;
+    color: rgb(23, 185, 244);
+    font-weight: lighter;
+    font-size: 60px;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.signInContainer h2 {
+    font-family: sans-serif;
+    font-weight: lighter;
+    font-weight: 200;
+    width: 90%;
+    text-align: center;
+    line-height: 1.5;
+    tab-size: 4;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.login_container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    width: 100%;
+}
+
+.login_container input{
+    width: 90%;
+    height: 40px;
+    border: 2px solid rgb(240, 236, 236);
+    border-radius: 8px;
+    outline: none;
+
+}
+
+.login_container button{
+    width: 90%;
+    background-color: rgb(23, 185, 244);
+    border: none;
+    height: 40px;
+    color: white;
+    border-radius: 8px;
+    font-family: sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+    transition: linear 0.4s;
+}
+
+.login_container button:hover{ 
+    width: 92%;
+    height: 41px;
+    opacity: 80%;
+}
+
+
+.altSignInParentContainer {
+    width: 90%;
+    height: 110px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.altSignInParentContainer button {
+    margin-bottom: 5px;
+    width: 47%;
+    height: 40px;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    transition: linear 0.4s;
+    cursor: pointer;
+}
+
+.altSignInParentContainer button:hover{
+    width: 48%;
+    height: 42px;
+    transition: linear 0.4s;
+    opacity: 80%;
+}
+
+.line {
+    margin-top: 20px;
+    width: 90%;
+    height: 2px;
+    background-color: rgb(240, 236, 236);
+    margin-bottom: 15px;
+}
+
+.i {
+    width: 20px;
+    height: 40px;
+}

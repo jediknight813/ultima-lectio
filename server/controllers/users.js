@@ -19,7 +19,7 @@ export const getUsers = async (req, res) => {
 
 export const createUser = async (req, res) => {
     const user = req.body;
-
+    console.log(user)
     const newUser = new User(user)
 
     try {
@@ -43,6 +43,28 @@ export const updateUser = async (req, res) => {
 
     res.json(updatedUser);
 }
+
+
+export const LoginUser = async (req, res) => {
+    const user = req.body;
+    console.log(user)
+
+    User.exists({ email: user.email, password: user.password }, function(err, result) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    })
+      
+    //res.status(200).json(user);
+
+    
+    //if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+}
+
+
+
 
 
 //export const deletePost = async (req, res ) => {
