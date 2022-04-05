@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import '../styles/SignInStyles.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewUserForDb, Loginuser } from '../actions/users.js'
+import { signup, signin } from '../actions/auth.js'
 import {useNavigate} from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login'
 
 
 const SignIn = () => {
@@ -16,21 +17,37 @@ const SignIn = () => {
 
     const SignIn = async (e) => {
         e.preventDefault();
-        dispatch(Loginuser(userSignIn));
+        dispatch(signin(userSignIn, navigate));
       };
     
     const CreateNewUser = async (e) => {
         e.preventDefault();
-        dispatch(createNewUserForDb(CreateUser));
+        dispatch(signup(CreateUser, navigate));
     };
 
     const UseDemoAccount = async () => {
         //e.preventDefault();
-        let x = dispatch(Loginuser({password: "demo", email: "account"}));
+        let x = dispatch(signin({password: "dave", email: "dave"}, navigate));
         if (x !== undefined) {
             navigate("/mainPage")
         }
     };
+
+    const googleSuccess = async (res) => {
+        //console.log(res)
+        const result = res?.profileObj;
+        const token = res?.tokenId;
+        navigate("/mainPage")
+        try {
+            dispatch({type: 'AUTH', data: { result, token }});
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const googleFailure = () => {
+        console.log("google sign in failed")
+    }
     
 
     if ( making_new_account === false) {
@@ -48,7 +65,17 @@ const SignIn = () => {
                     </form>
     
                     <div className="altSignInParentContainer">
-                        <button style={{"backgroundColor": "rgb(63, 225, 63)"}}> Google sign in </button>
+
+                        <GoogleLogin 
+                        clientId="837338787861-bslbcsirnrb9t8io4go9c8vu3o5g5g85.apps.googleusercontent.com"
+                        render={(renderProps) => (
+                            <button onClick={renderProps.onClick} disabled={renderProps.disabled} style={{"backgroundColor": "rgb(63, 225, 63)"}}> Google sign in </button>
+                        )}
+                        onSuccess={googleSuccess}
+                        onFailure={googleFailure}
+                        cookiePolicy="single_host_origin"
+                        />
+
                         <button onClick={() => make_new_account(true)} style={{"backgroundColor": "rgb(237, 108, 237)" }}> Create new account </button>
                         <button onClick={() => UseDemoAccount()} style={{"backgroundColor": "rgb(228, 87, 87)"}}> Use demo account </button>
                     </div>

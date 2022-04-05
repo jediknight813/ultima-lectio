@@ -10,4 +10,8 @@ export const CREATE_USER = 'CREATE_USER'
 export const LOGIN_USER = 'LOGIN_USER'
 
 
+export const AUTH = 'AUTH'
+export const LOGOUT = 'LOGOUT'
+
+
 export const USER_ID = 'USER_ID'

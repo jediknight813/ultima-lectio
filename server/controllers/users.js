@@ -1,7 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
+import bycypt from 'bcrypt'
 import User from '../models/User.js'
+import jwt from 'jsonwebtoken'
+import json from 'body-parser';
+
 
 
 const router = express.Router();
@@ -18,16 +21,23 @@ export const getUsers = async (req, res) => {
 
 
 export const createUser = async (req, res) => {
-    const user = req.body;
-    console.log(user)
-    const newUser = new User(user)
-
+    const {email, password, username} = req.body;
+    //console.log("here")
     try {
-        await newUser.save();
+        const existingUser =  await User.findOne({ email });
 
-        res.status(201).json(newUser);
+        if (existingUser) return res.status(400).json({message: "user exists"})
+
+        const hashedPassword = await bycypt.hash(password, 12)
+
+        const result = await User.create({email, password: hashedPassword, username})
+
+        const token = jwt.sign({email: result.email, id: result._id}, 'test', {expiresIn: "10h"})
+
+        res.status(200).json({ result, token })
+
     } catch (error) {
-        res.status(409),json({ message: error.message })
+        res.status(500).json({message: " something went wrong "})
     }
 }
 
@@ -46,22 +56,38 @@ export const updateUser = async (req, res) => {
 
 
 export const LoginUser = async (req, res) => {
-    const user = req.body;
-    console.log(user)
+    const { email, password } = req.body;
 
-    User.exists({ email: user.email, password: user.password }, function(err, result) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(result);
-        }
-    })
+    //console.log(req.body)
+
+    try {
+        const existingUser =  await User.findOne({ email });
+
+        if (!existingUser) return res.status(404).json({message: "user not found"})
+        
+        const isPasswordCorrect = await bycypt.compare(password, existingUser.password);
+
+        if (!isPasswordCorrect) return res.status(404).json({message: "invaild password"})
+
+
+        const token = jwt.sign({email: existingUser.email, id: existingUser._id}, 'test', {expiresIn: "10h"})
+        
+        console.log(token)
+
+        res.status(200).json({ result: existingUser, token})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: " something went wrong "})
+    }
+
+}
       
     //res.status(200).json(user);
 
     
     //if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
-}
+
 
 
 

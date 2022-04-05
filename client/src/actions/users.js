@@ -1,6 +1,5 @@
 import { FETCH_ALL_USERS, CREATE_USER, LOGIN_USER, USER_ID} from '../constants/actionTypes.js';
 import * as api from '../api/index.js';
-import { Test } from '../components/signIn.js';
 
 
 // action creators
@@ -31,7 +30,7 @@ export const createNewUserForDb = (post) => async (dispatch) => {
   export const Loginuser = (user) => async (dispatch) => {
     try {
         const { data } = await api.LoginCurrentUser(user);
-        //console.log(data)
+        console.log(data)
         //dispatch({ type: CREATE_USER, payload: data });
 
         dispatch({ type: USER_ID, payload: data });
