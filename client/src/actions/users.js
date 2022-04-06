@@ -1,4 +1,4 @@
-import { FETCH_ALL_USERS, CREATE_USER, LOGIN_USER, USER_ID} from '../constants/actionTypes.js';
+import { FETCH_ALL_USERS, CREATE_USER, USER_ID} from '../constants/actionTypes.js';
 import * as api from '../api/index.js';
 
 

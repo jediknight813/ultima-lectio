@@ -22,3 +22,5 @@ export const likePost = (id) => API.patch(`${"posts"}/${id}/likePost`);
 export const fetchUsers = () => API.get("users/");
 export const createUser = (newUser) => API.post("users/", newUser);
 export const LoginCurrentUser = (LoginData) => API.post("users/Login/", LoginData);
+
+export const SignInGoogleUser = (googleId) => API.post("users/google/", googleId);

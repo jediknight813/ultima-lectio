@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {useNavigate, useLocation} from 'react-router-dom';
+import decode from 'jwt-decode'
 
 
 const MainPage = () => {
@@ -18,17 +19,21 @@ const MainPage = () => {
 
     useEffect(() => {
         const token = user?.token;
+
+        if (token) {
+            const decodedToken = decode(token)
+
+            if(decodedToken.exp * 1000 < new Date().getTime()) logout();
+        }
+
         setUser(JSON.parse(localStorage.getItem('profile')))
-
-
     }, [location])
 
 
     return (
         <div> 
-            <h1> {user?.result.email} </h1>
-            <img alt='profile img' src={user?.result.imageUrl}/>
-
+            <h1> {user?.result.username} </h1>
+            <img alt='profile img' src={user?.result.profile_image} />
             <button onClick={() => logout()}> LOGOUT </button>
         </div>
     )

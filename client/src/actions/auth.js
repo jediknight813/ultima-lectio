@@ -26,3 +26,22 @@ export const signup = (formData, navigate) => async (dispach) => {
         console.log(error)
     }
 }
+
+
+export const LoginGoogleUser = (googleId, navigate) => async (dispach) => {
+    try {
+
+        //console.log(googleId)
+
+        const { data } = await api.SignInGoogleUser(googleId)
+        
+        //console.log(data)
+
+        dispach({ type: AUTH, data})
+  
+        navigate('/mainPage')
+
+    } catch (error) {
+        console.log(error)
+    }
+  }

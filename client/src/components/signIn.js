@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import '../styles/SignInStyles.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { signup, signin } from '../actions/auth.js'
+import { signup, signin, LoginGoogleUser } from '../actions/auth.js'
 import {useNavigate} from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login'
 
@@ -27,22 +27,31 @@ const SignIn = () => {
 
     const UseDemoAccount = async () => {
         //e.preventDefault();
-        let x = dispatch(signin({password: "dave", email: "dave"}, navigate));
+        let x = dispatch(signin({password: "DemoAccount", email: "DemoAccount@gmail.com"}, navigate));
         if (x !== undefined) {
             navigate("/mainPage")
         }
     };
 
     const googleSuccess = async (res) => {
-        //console.log(res)
-        const result = res?.profileObj;
-        const token = res?.tokenId;
-        navigate("/mainPage")
-        try {
-            dispatch({type: 'AUTH', data: { result, token }});
-        } catch (error) {
-            console.log(error)
+        
+        //const result = res?.profileObj;
+        //const token = res?.tokenId;
+        //navigate("/mainPage")
+
+        try { 
+            if (res?.profileObj?.googleId) {
+                dispatch(LoginGoogleUser(res?.profileObj, navigate))
+        }} catch (error) {
+             console.log(error)
         }
+        
+
+        //try {
+        //    dispatch({type: 'AUTH', data: { result, token }});
+        //} catch (error) {
+        //    console.log(error)
+        //}
     }
 
     const googleFailure = () => {
