@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {useNavigate, useLocation} from 'react-router-dom';
 import decode from 'jwt-decode'
+import Header from './Header';
 
 
 const MainPage = () => {
@@ -32,9 +33,12 @@ const MainPage = () => {
 
     return (
         <div> 
+            <Header />
             <h1> {user?.result.username} </h1>
             <img alt='profile img' src={user?.result.profile_image} />
             <button onClick={() => logout()}> LOGOUT </button>
+
+
         </div>
     )
 

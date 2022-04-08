@@ -8,7 +8,7 @@ import { GoogleLogin } from 'react-google-login'
 
 const SignIn = () => {
     const [userSignIn, setUserSignIn] = useState({ email: '', password: ''});
-    const [CreateUser, setCreateUserData] = useState({ email: '', password: '', username: '', posts: [], friend_requests: [], friends: [], profile_image: ""});
+    const [CreateUser, setCreateUserData] = useState({ email: '', password: '', username: '', posts: [], friend_requests: [], friends: [], profile_image: " "});
     const dispatch = useDispatch();  
     const navigate = useNavigate();
 
@@ -67,9 +67,9 @@ const SignIn = () => {
                     <h1> ultima lectio </h1>
                     <h2> ultima lectio helps you connect and share with the people in your life.</h2>
     
-                    <form className="login_container" autoComplete="off" noValidate onSubmit={SignIn}>
-                        <input placeholder="  Email address" name="email" variant="outlined" label="email" value={userSignIn.email} onChange={(e) => setUserSignIn({ ...userSignIn, email: e.target.value })} />
-                        <input placeholder="  Password" name="password" variant="outlined" label="password" value={userSignIn.password} onChange={(e) => setUserSignIn({ ...userSignIn, password: e.target.value })} />
+                    <form className="login_container" onSubmit={SignIn}>
+                        <input required minLength={4} type="email" title="Please Provide A Valid Email Address !" placeholder="  Email address" value={userSignIn.email} onChange={(e) => setUserSignIn({ ...userSignIn, email: e.target.value })} />
+                        <input required minLength={2} type="password" placeholder="  Password" name="password" variant="outlined" label="password" value={userSignIn.password} onChange={(e) => setUserSignIn({ ...userSignIn, password: e.target.value })} />
                         <button type="submit"> Log in </button>
                     </form>
     
@@ -108,10 +108,10 @@ const SignIn = () => {
                     <h1> ultima lectio </h1>
                     <h2> create account </h2>
     
-                    <form className="login_container" autoComplete="off" noValidate onSubmit={CreateNewUser}>
-                        <input placeholder="  username" name="username" variant="outlined" label="username" value={CreateUser.username} onChange={(e) => setCreateUserData({ ...CreateUser, username: e.target.value })} />
-                        <input placeholder="  Email address" name="email" variant="outlined" label="email" value={CreateUser.email} onChange={(e) => setCreateUserData({ ...CreateUser, email: e.target.value })} />
-                        <input placeholder="  Password" name="password" variant="outlined" label="password" value={CreateUser.password} onChange={(e) => setCreateUserData({ ...CreateUser, password: e.target.value })} />
+                    <form className="login_container" onSubmit={CreateNewUser}>
+                        <input required minLength={3} type="text" placeholder="  username" value={CreateUser.username} onChange={(e) => setCreateUserData({ ...CreateUser, username: e.target.value })} />
+                        <input required minLength={4} type="email" title="Please Provide A Valid Email Address !" id="email_create_account" placeholder="  Email address" name="email" value={CreateUser.email} onChange={(e) => setCreateUserData({ ...CreateUser, email: e.target.value })} />
+                        <input required minLength={2} type="password" placeholder="  Password"  value={CreateUser.password} onChange={(e) => setCreateUserData({ ...CreateUser, password: e.target.value })} />
                         <button type="submit"> Create Account </button>
                         <button onClick={() => make_new_account(false)} style={{"backgroundColor": 'red'}} type="submit"> Go Back </button>
                     </form>
