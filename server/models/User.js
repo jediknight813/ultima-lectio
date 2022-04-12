@@ -8,8 +8,8 @@ const userSchema = mongoose.Schema({
     password: String,
     posts: Array,
     friends: Array,
-    friend_requests: Array,
-    profile_image: String
+    profile_image: String,
+    notifications: Array
 })
 
 

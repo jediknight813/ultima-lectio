@@ -9,6 +9,8 @@ import reducers from './reducers';
 // components
 import SignIn from './components/signIn';
 import MainPage from './components/MainPage';
+import Notifications from './components/notifications';
+
 
 import {
   BrowserRouter,
@@ -25,6 +27,7 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/MainPage" element={<MainPage />} />
+          <Route path="/Notifications" element={<Notifications />} />
         </Routes>
       </BrowserRouter>
   </Provider>,
