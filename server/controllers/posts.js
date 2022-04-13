@@ -20,14 +20,12 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
     const post = req.body;
 
-    const newPost = new Post({...post, creator: req.userId, createdAt: new Date().toISOString()})
-
     try {
-        await newPost.save();
+        const result = await Post.create({...post, createdAt: new Date().toISOString()})
+        res.status(201).json(result);
 
-        res.status(201).json(newPost);
     } catch (error) {
-        res.status(409),json({ message: error.message })
+        res.status(500).json({message: " something went wrong "})
     }
 }
 

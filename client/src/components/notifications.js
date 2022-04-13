@@ -9,9 +9,8 @@ const Notifications = () => {
 
     
     return (
-        <div>
+        <div className="notification_page_parent">
             <Header />
-            notifications
         </div>
     )
 }

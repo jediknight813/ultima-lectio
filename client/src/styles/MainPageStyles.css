@@ -1,0 +1,19 @@
+.main_page_parent {
+    background-color: #302f42;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+}
+
+.center_posts_parent {
+    width: 700px;
+    margin-top: 90px;
+    min-height: 100vh;
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(101, 142, 178);
+    z-index: 1;
+}

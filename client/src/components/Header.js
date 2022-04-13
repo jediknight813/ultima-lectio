@@ -18,6 +18,10 @@ const Header = () => {
     const location = useLocation()
 
 
+    if (user === null) {
+        navigate('/')
+    }
+
     function check_comment_and_notification_status() {
 
     }
@@ -100,6 +104,12 @@ const Header = () => {
                 <div className="nav_drop_down_menu">
                     <button><i class="fa fa-home"></i>home</button>
                     <button><i class="fa fa-picture-o"></i>explore</button>
+                </div>    
+            )}
+
+
+            {( show_settings_drop_down === true || show_nav_drop_down === true ) && (
+                <div onClick={() => {set_nav_drop_down(false); set_settings_drop_down(false)}} className="hide_menus_when_clicked">    
                 </div>    
             )}
 

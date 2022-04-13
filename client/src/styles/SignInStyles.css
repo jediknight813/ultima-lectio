@@ -124,3 +124,39 @@
     width: 20px;
     height: 40px;
 }
+
+
+@media (max-width: 510px) { 
+
+    .signInContainer {
+        width: 100%;
+    }
+
+    .signInContainer h2 {
+        font-size: 15px;
+    }
+    .signInContainerParent {
+        width: 100vw;
+        height: 100vh;
+    }
+}
+
+@media (max-width: 350px) { 
+
+    .signInContainer {
+        width: 100%;
+    }
+
+    .signInContainer h2 {
+        font-size: 15px;
+    }
+    .signInContainerParent {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .signInContainer h1 {
+        font-size: 45px;
+    }
+
+}

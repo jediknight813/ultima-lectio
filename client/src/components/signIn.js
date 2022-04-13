@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../styles/SignInStyles.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { signup, signin, LoginGoogleUser } from '../actions/auth.js'
@@ -11,6 +11,14 @@ const SignIn = () => {
     const [CreateUser, setCreateUserData] = useState({ email: '', password: '', username: '', posts: [], friend_requests: [], friends: [], profile_image: " "});
     const dispatch = useDispatch();  
     const navigate = useNavigate();
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+
+
+    useEffect(() => {
+        if (user !== null) {
+            navigate("/mainPage")
+        }
+    })
 
 
     const [making_new_account, make_new_account] = useState(false)
