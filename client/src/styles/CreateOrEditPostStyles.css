@@ -18,6 +18,7 @@
     pointer-events: none;
 }
 
+
 .open_post_menu {
     width: 80%;
     margin-left: 15px;
@@ -32,6 +33,7 @@
     align-items: center;
 }
 
+
 .open_post_menu h1{
     font-size: 13px;
     font-weight: bold;
@@ -41,18 +43,20 @@
     opacity: 70%;
 }
 
+
 .check_for_click {
     width: 100vw;
-    opacity: 50%;
+    opacity: 60%;
     z-index: 1;
     height: 100vh;
     top: 0%;
     position: fixed;
     top: 0px;
     right: 0px;
-    background-color: #4c45b1;
     cursor: default;
+    background-color: black;
 }
+
 
 .create_post_menu_parent {
     top: 0px;
@@ -66,10 +70,134 @@
 
 }
 
+
 .create_post_menu {
     width: 600px;
     height: 500px;
     background-color: #222132;
     z-index: 2;
     border-radius: 8px;
+}
+
+
+.create_post_form_parent{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: default;
+}
+
+
+.post_form_line {
+    width: 90%;
+    background-color: white;
+    height: 2px;
+    margin-bottom: 20px;
+    margin-top: 0px;
+}
+
+
+.create_post_username_and_image {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    margin-right: auto;
+    margin-left: 30px;
+}
+
+
+.create_post_username_and_image h2{
+    font-size: 12px;
+    font-weight: bold;
+    font-family: "Ubuntu",sans-serif;
+}
+
+
+.create_post_username_and_image img{
+    border-radius: 50%;
+    height: 40px;
+    border: 2px solid white;
+}
+
+
+.form_message_text {
+    width: 80%;
+    height: 150px;
+    resize: none;
+    background-color: #222132;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Ubuntu",sans-serif;
+    outline: none;
+    border: none;
+    margin-bottom: 10px;
+}
+
+
+.form_message_text::-webkit-input-placeholder {
+    color: white;
+}
+
+
+.form_tags_input {
+    width: 80%;
+    height: 20px;
+    background-color: #222132;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Ubuntu",sans-serif;
+    margin-bottom: 10px;
+    outline: none;
+    border: none;
+    color: white;
+}
+
+
+.form_tags_input::-webkit-input-placeholder {
+    color: white;
+}
+
+.form_add_image_button {
+    width: 80%;
+    height: 20px;
+    background-color: rgb(67, 73, 58);
+    color: white;
+    margin-bottom: 10px;
+}
+
+
+.submit_or_update_post {
+    background-color: #7594e7;
+    color: white;
+    width: 40%;
+    margin-top: 20px;
+    height: 35px;
+    border: none;
+    font-weight: bolder;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.add_image_to_post_button {
+    width: 80%;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(77, 168, 77);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Ubuntu",sans-serif;
+    text-align: center;
+    cursor: pointer;
 }

@@ -8,7 +8,7 @@ export const LIKE_POST = 'LIKE_POST'
 export const FETCH_ALL_USERS = 'FETCH_ALL_USERS'
 export const CREATE_USER = 'CREATE_USER'
 export const LOGIN_USER = 'LOGIN_USER'
-
+export const FETCH_USER = 'FETCH_USER'
 
 export const AUTH = 'AUTH'
 export const LOGOUT = 'LOGOUT'

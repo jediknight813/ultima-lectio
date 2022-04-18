@@ -1,6 +1,8 @@
 import express from "express";
 
-import { getUsers, createUser, updateUser, LoginUser, SignInGoogleUser} from "../controllers/users.js";
+import { getUsers, createUser, updateUser, LoginUser, SignInGoogleUser, getUser} from "../controllers/users.js";
+import auth from "../middleware/auth.js";
+
 
 const router = express.Router();
 
@@ -14,6 +16,7 @@ router.patch('/:id', updateUser)
 
 router.post('/google', SignInGoogleUser)
 
+router.post('/getUser/:id', auth, getUser)
 
 //router.delete('/:id', deletePost)
 

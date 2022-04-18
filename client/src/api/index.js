@@ -5,8 +5,7 @@ const API = axios.create({ baseURL: 'http://localhost:5000'})
 
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {
-        // this line may be incorrect
-        req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile'))}.token`;
+        req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
     }
 
     return req
@@ -23,4 +22,6 @@ export const fetchUsers = () => API.get("users/");
 export const createUser = (newUser) => API.post("users/", newUser);
 export const LoginCurrentUser = (LoginData) => API.post("users/Login/", LoginData);
 
+
+export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);
 export const SignInGoogleUser = (googleId) => API.post("users/google/", googleId);

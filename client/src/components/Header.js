@@ -18,16 +18,16 @@ const Header = () => {
     const location = useLocation()
 
 
-    if (user === null) {
-        navigate('/')
-    }
-
     function check_comment_and_notification_status() {
 
     }
 
     useEffect(() => {
         const token = user?.token;
+        
+        if (user === null) {
+            navigate('/')
+        }
 
         if (token) {
             const decodedToken = decode(token)
