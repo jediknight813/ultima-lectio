@@ -30,14 +30,17 @@ export const createPost = async (req, res) => {
 }
 
 export const updatePost = async (req, res) => {
-    const { id } = req.params;
-    const { title, message, creator, selectedFile, tags } = req.body;
-    
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    //console.log("post was trying to update")
+    //const { id } = req.params;
+    const { title, message, creator, selectedFile, tags, _id } = req.body;
+    console.log( _id )
 
-    const updatedPost = { creator, title, message, tags, selectedFile, _id: id };
 
-    await Post.findByIdAndUpdate(id, updatedPost, { new: true });
+    if (!await Post.findById(_id));
+
+    const updatedPost = { creator, title, message, tags, selectedFile, _id: _id };
+
+    await Post.findByIdAndUpdate(_id, updatedPost, { new: true });
 
     res.json(updatedPost);
 }
@@ -55,24 +58,36 @@ export const deletePost = async (req, res ) => {
 }
 
 export const likePost = async (req, res) => {
+    //console.log("attempted to like post")
+    //console.log(req.params)
     const { id } = req.params;
+    console.log(id)
 
     if (!req.userId) return res.json({message: 'Unauthenticated'})
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
-    
+    if (!await Post.findById(id));
+
     const post = await Post.findById(id);
 
     const index = post.likes.findIndex((id) => id === String(req.userId))
 
-    if (index === -1) {
-        post.likes.push(req.userId);
-    } 
-    else {
-        post.likes = posts.likes.filter((id) !== string(req.userId))
-    }
+    //if (index === -1) {
+    //    post.likes.push(req.userId);
+    //} 
+    //else {
+    //    post.likes = posts.likes.filter((id) !== string(req.userId))
+    //}
 
-    const updatedPost = await Post.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
+    //console.log(post.likes.includes(req.userId))
+    if (post.likes.includes(req.userId) === true) {
+        //console.log("disliked post")
+        const updatedPost = await Post.findByIdAndUpdate(id,  { $pull: { likes: req.userId } }, { new: true });
+        res.json(updatedPost);
+    }
+    else {
+        //console.log("liked post")
+        const updatedPost = await Post.findByIdAndUpdate(id,  { $addToSet: { likes: req.userId } }, { new: true });
+        res.json(updatedPost);
+    }
     
-    res.json(updatedPost);
 }
