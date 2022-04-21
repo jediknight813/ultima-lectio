@@ -21,6 +21,7 @@
 .post_username_image_date_and_edit_containter img{
     border-radius: 50%;
     height: 60px;
+    border: 2px solid white;
 }
 
 .post_username_image_date_and_edit_containter div{
@@ -53,6 +54,19 @@
     font-weight: bold;
 }
 
+
+.post_image_container {
+    width: 90%;
+    max-height: 400px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.post_image_container img{
+    max-width: 100%;
+    max-height: 100%;
+}
 
 
 .lds-ring {
@@ -100,3 +114,153 @@
   .like_post_container i{
       color: rgb(232, 69, 69);
   }
+
+.comment_container_parent {
+    display: flex;
+    width: 90%;
+    height: 90px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: scroll;  
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+.comment_container_parent_show_all_comments {
+    display: flex;
+    width: 90%;
+    height: auto;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: scroll;  
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+
+.comment_container_parent_show_all_comments::-webkit-scrollbar {
+    display: none;
+}
+
+.comment_container_parent::-webkit-scrollbar {
+    display: none;
+}
+
+.comment_container {
+    display: flex;
+    width: 100%;
+    min-height: 80px;
+    max-width: 98%;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    background-color: #302f42;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 15px;
+}
+
+
+.comment_container img {
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.comment_container h2{
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 0px;
+    margin-left: 8px;
+    font-weight: bold;
+    font-family: "Ubuntu",sans-serif;
+}
+
+.comment_container h1{
+    font-size: 15px;
+    margin-top: 13px;
+    margin-left: 8px;
+    font-weight: bold;
+    font-family: "Ubuntu",sans-serif;
+}
+
+.comment_container h3{
+    font-size: 15px;
+    margin-left: 8px;
+    font-family: "Ubuntu",sans-serif;
+    white-space: nowrap;
+}
+
+.make_a_comment_container {
+    width: 90%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-top: -5px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.make_a_comment_container img{
+    border-radius: 50%;
+    height: 40px;
+    border: 2px solid white;
+}
+
+.make_a_comment_container input{
+    width: 80%;
+    margin-left: 5px;
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: bold;
+    background-color: #100f18;
+    padding: 10px;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+}
+
+.make_a_comment_container button{
+    width: 60px;
+    height: 35px;
+    background-color: #7666ec;
+    border: none;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.show_comments_button_parent_container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: -25px;
+}
+
+.show_comments_button_parent_container button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    width: 200px;
+}
+
+
+@media (max-width: 728) { 
+    .post_parent_container {
+        max-width: 200px;
+        display: block;
+        visibility: hidden;
+    }    
+
+}

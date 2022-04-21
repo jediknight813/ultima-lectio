@@ -33,7 +33,7 @@ export const updatePost = async (req, res) => {
     //console.log("post was trying to update")
     //const { id } = req.params;
     const { title, message, creator, selectedFile, tags, _id } = req.body;
-    console.log( _id )
+    //console.log( _id )
 
 
     if (!await Post.findById(_id));
@@ -42,7 +42,10 @@ export const updatePost = async (req, res) => {
 
     await Post.findByIdAndUpdate(_id, updatedPost, { new: true });
 
-    res.json(updatedPost);
+    const updated = await Post.findById(_id)
+
+    res.json(updated);
+    
 }
 
 export const deletePost = async (req, res ) => {
@@ -61,7 +64,7 @@ export const likePost = async (req, res) => {
     //console.log("attempted to like post")
     //console.log(req.params)
     const { id } = req.params;
-    console.log(id)
+    //console.log(id)
 
     if (!req.userId) return res.json({message: 'Unauthenticated'})
 
@@ -90,4 +93,19 @@ export const likePost = async (req, res) => {
         res.json(updatedPost);
     }
     
+}
+
+export const add_comment_to_post  = async (req, res) => { 
+    const { id } = req.params;
+    const comment = req.body;
+    //console.log(comment, id)
+
+    if (!req.userId) return res.json({message: 'Unauthenticated'})
+
+    if (!await Post.findById(id));
+
+    const post = await Post.findById(id);
+
+    const updatedPost = await Post.findByIdAndUpdate(id,  { $push: { comments: comment } }, { new: true });
+    res.json(updatedPost);
 }

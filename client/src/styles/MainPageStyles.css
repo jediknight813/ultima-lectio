@@ -17,3 +17,12 @@
     z-index: 1;
     margin-bottom: 30px;
 }
+
+
+@media (max-width: 700px) { 
+    .center_posts_parent {
+        width: 100%;
+        min-width: 200px;
+    }
+
+}

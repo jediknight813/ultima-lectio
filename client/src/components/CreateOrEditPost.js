@@ -8,14 +8,15 @@ import Resizer from "react-image-file-resizer";
 
 const CreateOrEditPost = (data) => {
     var activate_data = data["CreateOrEditPostData"]
-    //console.log(activate_data)
     let random_string = Math.random().toString(30).substring(3,29)
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
 
     const [UserPost, SetUserPost] = useState({_id: random_string, message: "", username: user?.result?.username, creator: user?.result?._id , selectedFile: "", tags: ""})
+    
+
     const [create_post_menu, set_create_post_menu_status] = useState(false)
     const dispatch = useDispatch();  
-
+    //console.log(activate_data)
     const [image, setImage] = useState()
 
     const CreateNewPost = async (e) => {
@@ -29,6 +30,9 @@ const CreateOrEditPost = (data) => {
         else {
             e.preventDefault();
             //console.log(UserPost)
+            if ( activate_data?.post !== null &&  UserPost.comments === undefined) {
+                SetUserPost({ ...UserPost, comments: data.CreateOrEditPostData.post.comments, likes: data.CreateOrEditPostData.post.likes })
+            } 
             dispatch(updatePost(UserPost._id, UserPost));
             clear()
             data.close_create_and_edit_post_menu()
@@ -36,7 +40,7 @@ const CreateOrEditPost = (data) => {
     };
 
     const clear = () => {
-        SetUserPost({_id: random_string, message: "", username: user?.result?.username, creator: user?.result?._id , selectedFile: "", tags: ""})
+        SetUserPost({_id: random_string, message: "", username: user?.result?.username, creator: user?.result?._id , selectedFile: "", tags: "", comments: [], likes: []})
     }
 
 
@@ -45,6 +49,14 @@ const CreateOrEditPost = (data) => {
             SetUserPost(activate_data?.post)
             set_create_post_menu_status(true)
         }
+
+        //if (data.CreateOrEditPostData?.post?.likes !== undefined) {
+            //SetUserPost({ ...UserPost, likes: data.CreateOrEditPostData.post.likes })
+            //SetUserPost({...UserPost, likes: data.CreateOrEditPostData.post.comments})
+        //}
+
+        //console.log(data.CreateOrEditPostData?.post?.likes)
+        console.log(UserPost)
     
         if (activate_data?.active === true) {
             set_create_post_menu_status(true)
@@ -69,9 +81,9 @@ const resizeFile = (file) =>
     new Promise((resolve) => {
         Resizer.imageFileResizer(
             file,
-            300,
-            300,
-            "JPEG",
+            800,
+            800,
+            "PNG",
             100,
             0,
             (uri) => {

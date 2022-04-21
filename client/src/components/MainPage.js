@@ -77,7 +77,7 @@ const MainPage = () => {
 
 
 
-                {posts.map((post) => (
+                {[...posts].reverse().map((post) => (
                     <Post post={post} func={passedFunction} />
                  ))}
             </div>

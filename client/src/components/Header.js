@@ -24,7 +24,7 @@ const Header = () => {
 
     useEffect(() => {
         const token = user?.token;
-        
+
         if (user === null) {
             navigate('/')
         }
@@ -42,6 +42,8 @@ const Header = () => {
     const logout = () => {
         dispatch({type: 'LOGOUT'})
         setUser(null)
+        localStorage.clear();
+        sessionStorage.clear()
         navigate('/')
     }
 

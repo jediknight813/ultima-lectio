@@ -1,4 +1,4 @@
-import { FETCH_ALL_POSTS, CREATE_POST, UPDATE_POST, DELETE_POST, LIKE_POST } from '../constants/actionTypes.js';
+import { FETCH_ALL_POSTS, CREATE_POST, UPDATE_POST, DELETE_POST, LIKE_POST, ADD_COMMENT_TO_POST } from '../constants/actionTypes.js';
 import * as api from '../api/index.js';
 
 
@@ -30,9 +30,22 @@ export const createPost = (post) => async (dispatch) => {
 
   export const updatePost = (id, post) => async (dispatch) => {
     try {
+      console.log(post)
       const { data } = await api.updatePost(id, post);
-  
+      console.log(data)
+
       dispatch({ type: UPDATE_POST, payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  export const comment_on_post = (id, comment) => async (dispatch) => {
+    try {
+      const { data } = await api.add_comment_to_post(id, comment);
+  
+      dispatch({ type: ADD_COMMENT_TO_POST, payload: data });
     } catch (error) {
       console.log(error);
     }
