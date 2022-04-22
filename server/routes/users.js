@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getUsers, createUser, updateUser, LoginUser, SignInGoogleUser, getUser} from "../controllers/users.js";
+import { getUsers, createUser, updateUser, LoginUser, SignInGoogleUser, getUser, bookmarkPost} from "../controllers/users.js";
 import auth from "../middleware/auth.js";
 
 
@@ -17,6 +17,8 @@ router.patch('/:id', updateUser)
 router.post('/google', SignInGoogleUser)
 
 router.post('/getUser/:id', auth, getUser)
+
+router.patch('/:id/bookmark', auth, bookmarkPost)
 
 //router.delete('/:id', deletePost)
 

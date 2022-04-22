@@ -107,13 +107,25 @@
 
   .like_post_container {
       display: flex;
-      width: 90%;
       align-items: center;
+      margin-right: auto;
   }
 
-  .like_post_container i{
-      color: rgb(232, 69, 69);
+  .bookmark_post_container {
+    color: rgb(228, 193, 21);
+    display: flex;
+    align-items: center;
+    font-size: 30px;
   }
+
+.bookmark_post_container i{
+    cursor: pointer;
+}
+
+.like_post_container i{
+    color: rgb(232, 69, 69);
+    cursor: pointer;
+}
 
 .comment_container_parent {
     display: flex;

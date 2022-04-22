@@ -18,6 +18,8 @@ export const updatePost = (id, updatedPost) => API.patch(`${"posts"}/${id}`, upd
 export const deletePost = (id) => API.delete(`${"posts"}/${id}`);
 export const likePost = (id) => API.patch(`${"posts/"}${id}/likePost`);
 
+export const bookmarkPost = (id) => API.patch(`${"users/"}${id}/bookmark`);
+
 
 export const add_comment_to_post = (id, comment) => API.patch(`${"posts/"}${id}/add_comment_to_post`, comment);
 
@@ -25,6 +27,8 @@ export const add_comment_to_post = (id, comment) => API.patch(`${"posts/"}${id}/
 export const fetchUsers = () => API.get("users/");
 export const createUser = (newUser) => API.post("users/", newUser);
 export const LoginCurrentUser = (LoginData) => API.post("users/Login/", LoginData);
+
+export const fetchPostsWithTag = ( tag ) => API.post(`${"tag"}/${tag}`);
 
 
 export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);

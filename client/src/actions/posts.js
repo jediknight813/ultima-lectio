@@ -1,4 +1,4 @@
-import { FETCH_ALL_POSTS, CREATE_POST, UPDATE_POST, DELETE_POST, LIKE_POST, ADD_COMMENT_TO_POST } from '../constants/actionTypes.js';
+import { FETCH_ALL_POSTS, CREATE_POST, UPDATE_POST, DELETE_POST, LIKE_POST, ADD_COMMENT_TO_POST, BOOKMARK_POST } from '../constants/actionTypes.js';
 import * as api from '../api/index.js';
 
 
@@ -70,4 +70,33 @@ export const likePost = (id) => async (dispatch) => {
     } catch (error) {
       console.log(error.message);
     }
-  };
+};
+
+
+export const BookMarkPost = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.bookmarkPost(id);
+
+    dispatch({ type: BOOKMARK_POST, payload: data });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
+export const getUser = (id) => async (dispach) => {
+  //console.log("here")
+  try {
+      const { data } = await api.fetchUser(id)
+
+     console.log(data)
+
+      //return data
+
+      //dispach({ type: FETCH_USER, data})
+
+      //navigate('/mainPage')
+  } catch (error) {
+      console.log(error)
+  }
+}

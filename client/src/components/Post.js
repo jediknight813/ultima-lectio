@@ -3,7 +3,7 @@ import '../styles/PostStyles.css'
 import CreateOrEditPost from './CreateOrEditPost'
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from "../actions/auth";
-import { comment_on_post, getPosts, likePost } from "../actions/posts";
+import { comment_on_post, getPosts, likePost, BookMarkPost } from "../actions/posts";
 import * as api from '../api/index.js';
 import moment from 'moment';
 import Comment from "./Comment";
@@ -17,6 +17,7 @@ const Post = ( post ) => {
     const [UserComment, SetUserComment] = useState({createdAt: "", comment: "", user_id: ""})
     const [ShowMoreComments, setShowMoreCommentsState] = useState(false)
     const [comment_container_parent_class, set_comment_container_parent_class] = useState("comment_container_parent")
+    const [bookmarked_posts, set_bookmarked_posts] = useState({bookmarked_posts: []})
 
     function show_or_close_comments_menu() {
         if (ShowMoreComments === false) {
@@ -33,6 +34,10 @@ const Post = ( post ) => {
     useEffect(() => {   
     const fetchData = async () => {
         const { data } = await api.fetchUser(post?.post?.creator)
+        const { updated_user } = await api.fetchUser(current_user?.result?._id)
+        if (updated_user !== undefined) {
+            set_bookmarked_posts(updated_user)
+        }
         set_post_user(data);
     }
     fetchData()
@@ -41,19 +46,26 @@ const Post = ( post ) => {
 
     function like_or_unlike_post() {
         if (post.post.likes.includes(post_user._id) === true) {
-            //console.log("dislike post")
             dispatch(likePost(post.post._id))
         }
         else {
-            //console.log("like post")
             dispatch(likePost(post.post._id))
         }
     }
 
+    const update_current_user = async () => {
+        var { data } = await api.fetchUser(current_user?.result?._id)
+        set_bookmarked_posts(data)
+        //console.log(data)
+    }
+
+    function bookmark_or_unbookmark_post() {
+        dispatch(BookMarkPost(post.post._id))
+        update_current_user()
+    }
+
     const send_comment = async (e) => {
         e.preventDefault();
-        //console.log(current_user.result._id)
-        //console.log(UserComment)
         dispatch(comment_on_post(post.post._id, UserComment))
 
         SetUserComment({createdAt: "", comment: "", user_id: ""})
@@ -126,18 +138,31 @@ const Post = ( post ) => {
             </div>
             
             <div style={{width: "90%", "height": "1px", backgroundColor: "white", marginBottom: "-8px"}}> </div>
+            
+            <div style={{"width": "90%", "display": "flex"}}>
+                {post?.post?.likes?.includes(current_user?.result?._id) === false ? (
+                    <div className="like_post_container">
+                        <i onClick={() => like_or_unlike_post()} class="fa fa-heart-o" style={{"fontSize": "30px", cursor: "pointer"}}></i>
+                        <h1 style={{fontSize: "20px", marginTop: "10px", "marginLeft": "10px"}}>{post?.post?.likes?.length}</h1>
+                    </div>
+                ):(
+                    <div className="like_post_container">
+                        <i onClick={() => like_or_unlike_post()} class="fa fa-heart" style={{"fontSize": "30px", color: "rgb(232, 69, 69)", "cursor": "pointer"}}></i>
+                        <h1 style={{fontSize: "20px", marginTop: "10px", "marginLeft": "10px"}}>{post?.post?.likes?.length}</h1>
+                    </div>
+                )}
 
-            {post?.post?.likes?.includes(current_user?.result?._id) === false ? (
-                <div className="like_post_container">
-                    <i onClick={() => like_or_unlike_post()} class="fa fa-heart-o" style={{"fontSize": "30px", cursor: "pointer"}}></i>
-                    <h1 style={{fontSize: "20px", marginTop: "10px", "marginLeft": "10px"}}>{post?.post?.likes?.length}</h1>
-                </div>
-            ):(
-                <div className="like_post_container">
-                    <i onClick={() => like_or_unlike_post()} class="fa fa-heart" style={{"fontSize": "30px", color: "rgb(232, 69, 69)", "cursor": "pointer"}}></i>
-                    <h1 style={{fontSize: "20px", marginTop: "10px", "marginLeft": "10px"}}>{post?.post?.likes?.length}</h1>
-                </div>
-            )}
+                {bookmarked_posts.bookmarked_posts.includes(post.post._id) === false ? (
+                    <div className="bookmark_post_container">
+                        <i onClick={() => bookmark_or_unbookmark_post()} class="fa fa-bookmark"></i>
+                    </div>
+                ):(
+                    <div className="bookmark_post_container">
+                        <i onClick={() => bookmark_or_unbookmark_post()} class="fa fa-bookmark-o"></i>
+                    </div>
+                )}
+            </div>
+
 
             <div style={{width: "90%", "height": "1px", backgroundColor: "white", marginTop:"-10px"}}> </div>
 

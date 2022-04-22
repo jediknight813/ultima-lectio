@@ -45,7 +45,7 @@ export const updatePost = async (req, res) => {
     const updated = await Post.findById(_id)
 
     res.json(updated);
-    
+
 }
 
 export const deletePost = async (req, res ) => {
@@ -94,6 +94,7 @@ export const likePost = async (req, res) => {
     }
     
 }
+
 
 export const add_comment_to_post  = async (req, res) => { 
     const { id } = req.params;

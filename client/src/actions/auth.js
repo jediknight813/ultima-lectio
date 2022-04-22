@@ -48,7 +48,7 @@ export const LoginGoogleUser = (googleId, navigate) => async (dispach) => {
 
 
 export const getUser = (id) => async (dispach) => {
-    console.log("here")
+    //console.log("here")
     try {
         const { data } = await api.fetchUser(id)
 
