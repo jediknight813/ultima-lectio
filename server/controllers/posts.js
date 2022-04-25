@@ -123,7 +123,7 @@ export const getPostsWithTag = async (req, res) => {
         
         const posts = await Post.find( { tags: id } )
         //console.log(posts)
-        //console.log("post with tag found")
+        console.log("post with tag found")
         res.json(posts)
     } catch (error) {
         res.status(404).json({message: "no posts with matching tags found"})

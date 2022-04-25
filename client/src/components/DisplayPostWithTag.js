@@ -34,7 +34,7 @@ const DisplayPostsWithTag = () => {
         }
         fetchData()
             .catch(console.error);;
-    }, [])
+    }, [id])
 
     const passedFunction = (data) => {
         //console.log(data)

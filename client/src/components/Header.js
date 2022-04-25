@@ -104,8 +104,8 @@ const Header = () => {
 
             {(show_nav_drop_down === true) && (
                 <div className="nav_drop_down_menu">
-                    <button><i class="fa fa-home"></i>home</button>
-                    <button><i class="fa fa-picture-o"></i>explore</button>
+                    <button onClick={() => navigate("/mainPage")} ><i class="fa fa-home"></i>home</button>
+                    <button onClick={() => navigate("/mainPage")} ><i class="fa fa-picture-o"></i>explore</button>
                 </div>    
             )}
 

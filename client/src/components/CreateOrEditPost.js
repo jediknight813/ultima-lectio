@@ -115,7 +115,7 @@ const resizeFile = (file) =>
                     <h2> {user?.result?.username} </h2>
                 </div>
                 <textarea className="form_message_text" required minLength={3} type="text" placeholder={"What's on your mind "+ user?.result?.username+"?"} value={UserPost.message} onChange={(e) => SetUserPost({ ...UserPost, message: e.target.value })} />
-                <input className="form_tags_input" placeholder="Tags (comma separated)" value={UserPost.tags} onChange={(e) => SetUserPost({ ...UserPost, tags: e.target.value.split(', ') })} />
+                <input className="form_tags_input" placeholder="Tags (comma separated)" value={UserPost.tags} onChange={(e) => SetUserPost({ ...UserPost, tags: e.target.value.split(',') })} />
                 <input hidden accept="image/png, image/gif, image/jpeg" id="file_for_image" type="file" multiple={false} onChange={(e) => LowerImageSize(e)} /> 
                 <div onClick={() => document.getElementById("file_for_image").click()} className="add_image_to_post_button"> {upload_photo_button_text} </div>
                 <button className="submit_or_update_post" type="submit"> {upload_button_text} </button>
