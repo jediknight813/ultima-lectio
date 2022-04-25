@@ -30,9 +30,9 @@ export const createPost = (post) => async (dispatch) => {
 
   export const updatePost = (id, post) => async (dispatch) => {
     try {
-      console.log(post)
+      //console.log(post)
       const { data } = await api.updatePost(id, post);
-      console.log(data)
+      //console.log(data)
 
       dispatch({ type: UPDATE_POST, payload: data });
     } catch (error) {
@@ -84,18 +84,12 @@ export const BookMarkPost = (id) => async (dispatch) => {
 };
 
 
-export const getUser = (id) => async (dispach) => {
-  //console.log("here")
+export const getPostsWithTag = (tag) => async (dispach) => {
   try {
-      const { data } = await api.fetchUser(id)
+      const { data } = await api.fetchPostsWithTag(tag)
 
-     console.log(data)
-
-      //return data
-
-      //dispach({ type: FETCH_USER, data})
-
-      //navigate('/mainPage')
+      console.log(data)
+      return data
   } catch (error) {
       console.log(error)
   }

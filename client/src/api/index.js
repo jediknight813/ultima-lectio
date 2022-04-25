@@ -28,7 +28,7 @@ export const fetchUsers = () => API.get("users/");
 export const createUser = (newUser) => API.post("users/", newUser);
 export const LoginCurrentUser = (LoginData) => API.post("users/Login/", LoginData);
 
-export const fetchPostsWithTag = ( tag ) => API.post(`${"tag"}/${tag}`);
+export const fetchPostsWithTag = ( tag ) => API.post(`${"posts/tag"}/${tag}`);
 
 
 export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);

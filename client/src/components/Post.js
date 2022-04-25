@@ -3,21 +3,23 @@ import '../styles/PostStyles.css'
 import CreateOrEditPost from './CreateOrEditPost'
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from "../actions/auth";
-import { comment_on_post, getPosts, likePost, BookMarkPost } from "../actions/posts";
+import { comment_on_post, getPosts, likePost, BookMarkPost, getPostsWithTag } from "../actions/posts";
 import * as api from '../api/index.js';
 import moment from 'moment';
 import Comment from "./Comment";
+import {useNavigate, useLocation} from 'react-router-dom';
 
 
 const Post = ( post ) => {
     const [post_user, set_post_user] = useState(null)
     const [current_user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
-
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [UserComment, SetUserComment] = useState({createdAt: "", comment: "", user_id: ""})
     const [ShowMoreComments, setShowMoreCommentsState] = useState(false)
     const [comment_container_parent_class, set_comment_container_parent_class] = useState("comment_container_parent")
     const [bookmarked_posts, set_bookmarked_posts] = useState({bookmarked_posts: []})
+    const [render, rerender] = useState(false);
 
     function show_or_close_comments_menu() {
         if (ShowMoreComments === false) {
@@ -34,9 +36,9 @@ const Post = ( post ) => {
     useEffect(() => {   
     const fetchData = async () => {
         const { data } = await api.fetchUser(post?.post?.creator)
-        const { updated_user } = await api.fetchUser(current_user?.result?._id)
-        if (updated_user !== undefined) {
-            set_bookmarked_posts(updated_user)
+        const newdata = await api.fetchUser(current_user?.result?._id) 
+        if (newdata !== undefined) {
+            set_bookmarked_posts(newdata.data)
         }
         set_post_user(data);
     }
@@ -51,23 +53,31 @@ const Post = ( post ) => {
         else {
             dispatch(likePost(post.post._id))
         }
+        
     }
 
     const update_current_user = async () => {
-        var { data } = await api.fetchUser(current_user?.result?._id)
-        set_bookmarked_posts(data)
-        //console.log(data)
+        const newdata = await api.fetchUser(current_user?.result?._id)
+        if (newdata.data !== undefined) {
+            set_bookmarked_posts(newdata.data)
+            //console.log(bookmarked_posts)
+        }
     }
 
+    //console.log("here")
+    //console.log(bookmarked_posts)
+
     function bookmark_or_unbookmark_post() {
+        //console.log(bookmarked_posts)
         dispatch(BookMarkPost(post.post._id))
-        update_current_user()
+        setTimeout(() => {
+            update_current_user();
+          }, 1000)
     }
 
     const send_comment = async (e) => {
         e.preventDefault();
         dispatch(comment_on_post(post.post._id, UserComment))
-
         SetUserComment({createdAt: "", comment: "", user_id: ""})
     };
 
@@ -78,8 +88,10 @@ const Post = ( post ) => {
         is_current_user_post = true
    }
 
-  
-   return (
+    //console.log(bookmarked_posts)
+    //console.log(bookmarked_posts.bookmarked_posts.includes(post.post._id), post.post._id, bookmarked_posts.bookmarked_posts)
+    
+    return (
         <div className="post_parent_container">
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
             <div className="post_username_image_date_and_edit_containter">
@@ -100,16 +112,14 @@ const Post = ( post ) => {
 
 
             </div>
-                {post.post.tags[0].split(", ")?.length <= 1 ? (
-                    <div>
-                    </div>
-                ):(
+                {(post.post.tags?.length >= 1 && (
                     <div style={{"display": "flex", width: "90%", gap: "10px", fontWeight: "bold", fontSize:" 15px"}}>
-                        {post?.post?.tags[0].split(", ").map((post) => (
-                        <div >{"#"+post} </div>
+                        {post?.post?.tags.map((post) => (
+                        <div style={{"cursor": "pointer"}} onClick={() => navigate(`/tags/${post.trim()}`)}>{"#"+post.trim()} </div>
                         ))}
-                    </div>
-                )}
+                    </div>  
+                ))}
+
             <div>
 
             </div>
@@ -152,7 +162,7 @@ const Post = ( post ) => {
                     </div>
                 )}
 
-                {bookmarked_posts.bookmarked_posts.includes(post.post._id) === false ? (
+                {bookmarked_posts?.bookmarked_posts?.includes(post.post._id) ? (
                     <div className="bookmark_post_container">
                         <i onClick={() => bookmark_or_unbookmark_post()} class="fa fa-bookmark"></i>
                     </div>

@@ -27,6 +27,7 @@ const MainPage = () => {
 
     var update_post = {type: "update", post: post_to_edit}
 
+    //console.log(posts)
 
     const close_create_and_edit_post_menu = () => {
         set_update_post(false)
@@ -80,6 +81,14 @@ const MainPage = () => {
                 {[...posts].reverse().map((post) => (
                     <Post post={post} func={passedFunction} />
                  ))}
+
+                {(posts.length < 1) && (
+                    <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
+                        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                        <h1>Loading..</h1>
+                    </div>
+                )}
+
             </div>
             
         </div>

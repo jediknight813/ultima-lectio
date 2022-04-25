@@ -110,3 +110,22 @@ export const add_comment_to_post  = async (req, res) => {
     const updatedPost = await Post.findByIdAndUpdate(id,  { $push: { comments: comment } }, { new: true });
     res.json(updatedPost);
 }
+
+
+
+export const getPostsWithTag = async (req, res) => { 
+    var { id } = req.params
+    //console.log(id)
+    id = id.toString()
+    id.trim()
+    
+    try {
+        
+        const posts = await Post.find( { tags: id } )
+        //console.log(posts)
+        //console.log("post with tag found")
+        res.json(posts)
+    } catch (error) {
+        res.status(404).json({message: "no posts with matching tags found"})
+    }
+}

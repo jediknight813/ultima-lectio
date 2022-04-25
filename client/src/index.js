@@ -10,6 +10,7 @@ import reducers from './reducers';
 import SignIn from './components/signIn';
 import MainPage from './components/MainPage';
 import Notifications from './components/notifications';
+import DisplayPostsWithTag from './components/DisplayPostWithTag';
 
 
 import {
@@ -28,6 +29,7 @@ ReactDOM.render(
           <Route path="/" element={<SignIn />} />
           <Route path="/MainPage" element={<MainPage />} />
           <Route path="/Notifications" element={<Notifications />} />
+          <Route path="/tags/:id" element={<DisplayPostsWithTag /> } />
         </Routes>
       </BrowserRouter>
   </Provider>,
