@@ -28,7 +28,7 @@ const ExplorePage = () => {
             <Header />
 
             {(tags === undefined) && (
-                <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
+                <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center", backgroundColor: '#302f42', width: "100vw", height: "100vh"}}>
                     <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                     <h1>Loading..</h1>
                 </div>

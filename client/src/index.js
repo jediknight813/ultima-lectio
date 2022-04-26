@@ -12,6 +12,7 @@ import MainPage from './components/MainPage';
 import Notifications from './components/notifications';
 import DisplayPostsWithTag from './components/DisplayPostWithTag';
 import ExplorePage from './components/ExplorePage';
+import SearchPosts from './components/SearchPosts';
 
 
 import {
@@ -31,6 +32,7 @@ ReactDOM.render(
           <Route path="/MainPage" element={<MainPage />} />
           <Route path="/Notifications" element={<Notifications />} />
           <Route path="/tags/:id" element={<DisplayPostsWithTag /> } />
+          <Route path="/search/:id" element={<SearchPosts /> } />
           <Route path="/Explore" element={<ExplorePage /> } />
         </Routes>
       </BrowserRouter>

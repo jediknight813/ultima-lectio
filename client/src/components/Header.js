@@ -17,6 +17,8 @@ const Header = () => {
     const dispatch = useDispatch()
     const location = useLocation()
 
+    const [searchValue, setSearchValue] = useState()
+
 
     function check_comment_and_notification_status() {
 
@@ -45,6 +47,11 @@ const Header = () => {
         localStorage.clear();
         sessionStorage.clear()
         navigate('/')
+    }
+
+    function search() {
+        console.log("here")
+        navigate(`/search/${searchValue.trim()}`)
     }
 
 
@@ -81,7 +88,11 @@ const Header = () => {
 
             <div className="searchbar_parent">
                 <i class="fa fa-search"></i>
-                <input placeholder="Search" type="text" />
+
+                <form onSubmit={search}>
+                    <input value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="Search" type="text" />
+                </form>
+
             </div>
 
 
@@ -95,7 +106,6 @@ const Header = () => {
             {(show_settings_drop_down === true) && (
                 <div className="profile_drop_down_menu">
                     <button><i class="fa fa-user-circle-o"></i>profile</button>
-                    <button><i class="fa fa-plus"></i>create post</button>
                     <button onClick={() => navigate("/Notifications")}><i class="fa fa-commenting"></i>comments</button>
                     <button onClick={() => navigate("/Notifications")}><i class="fa fa-bell"></i>notifications</button>
                     <button onClick={() => logout()}><i class="fa fa-share"></i>logout</button>
@@ -120,3 +130,5 @@ const Header = () => {
 }
 
 export default Header
+
+//  <button><i class="fa fa-plus"></i>create post</button>

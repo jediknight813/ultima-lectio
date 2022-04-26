@@ -32,6 +32,8 @@ export const LoginCurrentUser = (LoginData) => API.post("users/Login/", LoginDat
 
 export const fetchPostsWithTag = ( tag ) => API.post(`${"posts/tag"}/${tag}`);
 
+export const fetchPostsWithSearch = ( search ) => API.post(`${"posts/search"}/${search}`);
+
 
 export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);
 export const SignInGoogleUser = (googleId) => API.post("users/google/", googleId);

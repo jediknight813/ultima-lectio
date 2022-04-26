@@ -23,6 +23,9 @@ const CreateOrEditPost = (data) => {
     const CreateNewPost = async (e) => {
         if (activate_data.post === null) {
             e.preventDefault();
+            UserPost.tags = UserPost.tags.map(element => {
+                return element.trim();
+            });
             dispatch(createPost(UserPost));
             clear()
             //set_create_post_menu_status(false)
@@ -31,6 +34,9 @@ const CreateOrEditPost = (data) => {
         else {
             e.preventDefault();
             //console.log(UserPost)
+            UserPost.tags = UserPost.tags.map(element => {
+                return element.trim();
+            });
             if ( activate_data?.post !== null &&  UserPost.comments === undefined) {
                 SetUserPost({ ...UserPost, comments: data.CreateOrEditPostData.post.comments, likes: data.CreateOrEditPostData.post.likes })
             } 

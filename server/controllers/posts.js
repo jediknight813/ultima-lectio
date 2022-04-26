@@ -115,13 +115,11 @@ export const add_comment_to_post  = async (req, res) => {
 
 export const getPostsWithTag = async (req, res) => { 
     var { id } = req.params
+    //id = id.toString()
+    id = id.trim()
     //console.log(id)
-    id = id.toString()
-    id.trim()
-    
     try {
-        
-        const posts = await Post.find( { tags: id } )
+        const posts = await Post.find( { tags: { $all: id } } )
         //console.log(posts)
         //console.log("post with tag found")
         res.json(posts)
@@ -140,5 +138,23 @@ export const getTags = async (req, res) => {
 
     } catch (error) {
         res.status(404).json({ message: error.message });
+    }
+}
+
+
+export const getPostsWithSearch = async (req, res) => { 
+    var { id } = req.params
+    //console.log(id)
+    //id = id.toString()
+    const message = new RegExp(id, 'i')
+    id = id.trim()
+    //console.log(id)
+
+    try {        
+        const posts = await Post.find( {message} )
+        res.json(posts)
+
+    } catch (error) {
+        res.status(404).json({message: "no posts with matching tags found"})
     }
 }
