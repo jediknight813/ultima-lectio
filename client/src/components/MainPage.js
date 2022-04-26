@@ -25,6 +25,7 @@ const MainPage = () => {
     const [post_to_edit, set_post_to_edit] = useState(null)
 
 
+
     var update_post = {type: "update", post: post_to_edit}
 
     //console.log(posts)
@@ -40,8 +41,29 @@ const MainPage = () => {
             dispatch(getPosts())
         }
         fetchData()
-            .catch(console.error);;
+            .catch(console.error);
+
+            const token = user?.token;
+
+
+        if (user === null) {
+            navigate('/')
+        }
+
+        if (token) {
+            const decodedToken = decode(token)
+
+            if(decodedToken.exp * 1000 < new Date().getTime()) logout();
+        }
     }, [])
+
+    const logout = () => {
+        dispatch({type: 'LOGOUT'})
+        setUser(null)
+        localStorage.clear();
+        sessionStorage.clear()
+        navigate('/')
+    }
 
     const passedFunction = (data) => {
         //console.log(data)
@@ -55,7 +77,7 @@ const MainPage = () => {
             <div className='center_posts_parent'>
                 <div className="center_post_menu_parent">
                     <img alt="profile_image" className="create_post_profile_image" src={user?.result?.profile_image}/>
-                    <div className="open_post_menu" onClick={() => set_create_edit_post_menu_status(true)}> <h1> {"What's on your mind "+ user?.result?.username+"?"}</h1></div>
+                    <div className="open_post_menu" onClick={() => set_create_edit_post_menu_status(true)}> <h1> {"What's on your mind "+ user?.result?.username+"?"}</h1> </div>
                 </div>
 
                 {(create_edit_post_menu === true) && (

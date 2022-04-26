@@ -44,7 +44,7 @@ const Post = ( post ) => {
     }
     fetchData()
         .catch(console.error);;
-    }, [])
+    }, [post?.post?.creator])
 
     function like_or_unlike_post() {
         if (post.post.likes.includes(post_user._id) === true) {
@@ -77,6 +77,7 @@ const Post = ( post ) => {
 
     const send_comment = async (e) => {
         e.preventDefault();
+        //console.log(UserComment)
         dispatch(comment_on_post(post.post._id, UserComment))
         SetUserComment({createdAt: "", comment: "", user_id: ""})
     };
@@ -112,13 +113,13 @@ const Post = ( post ) => {
 
 
             </div>
-                {(post.post.tags?.length >= 1 && (
+                {(post.post.tags?.length >= 1 && post.post?.tags[0].split("").length > 1) && (
                     <div style={{"display": "flex", width: "90%", gap: "10px", fontWeight: "bold", fontSize:" 15px"}}>
                         {post?.post?.tags.map((post) => (
                         <div style={{"cursor": "pointer"}} onClick={() => navigate(`/tags/${post.trim()}`)}>{"#"+post.trim()} </div>
                         ))}
                     </div>  
-                ))}
+                )}
 
             <div>
 

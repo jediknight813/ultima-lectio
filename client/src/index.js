@@ -11,6 +11,7 @@ import SignIn from './components/signIn';
 import MainPage from './components/MainPage';
 import Notifications from './components/notifications';
 import DisplayPostsWithTag from './components/DisplayPostWithTag';
+import ExplorePage from './components/ExplorePage';
 
 
 import {
@@ -30,6 +31,7 @@ ReactDOM.render(
           <Route path="/MainPage" element={<MainPage />} />
           <Route path="/Notifications" element={<Notifications />} />
           <Route path="/tags/:id" element={<DisplayPostsWithTag /> } />
+          <Route path="/Explore" element={<ExplorePage /> } />
         </Routes>
       </BrowserRouter>
   </Provider>,

@@ -1,0 +1,42 @@
+.explore_page_parent_container {
+    background-color: #302f42;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+}
+
+.tags_parent_container {
+    width: 600px;
+    margin-top: 80px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.tag_container {
+    width: 290px;
+    background-color: #222132;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: "Ubuntu",sans-serif;
+    font-weight: bold;
+}
+
+@media (max-width: 620px) { 
+    .tags_parent_container {
+        justify-content: center;
+    }    
+
+}

@@ -28,7 +28,7 @@ const DisplayPostsWithTag = () => {
             console.log(id)
             const { data } = await api.fetchPostsWithTag(id)
             if (data !== undefined) {
-                console.log(data)
+                //console.log(data)
                 setPosts(data)
             }
         }

@@ -77,7 +77,7 @@ const Header = () => {
             </div>
 
             <button onClick={() => navigate("/mainPage")} className="home_button"> Home </button>
-            <button onClick={() => navigate("/mainPage")} className="home_button"> Explore </button>
+            <button onClick={() => navigate("/Explore")} className="home_button"> Explore </button>
 
             <div className="searchbar_parent">
                 <i class="fa fa-search"></i>
@@ -105,7 +105,7 @@ const Header = () => {
             {(show_nav_drop_down === true) && (
                 <div className="nav_drop_down_menu">
                     <button onClick={() => navigate("/mainPage")} ><i class="fa fa-home"></i>home</button>
-                    <button onClick={() => navigate("/mainPage")} ><i class="fa fa-picture-o"></i>explore</button>
+                    <button onClick={() => navigate("/Explore")} ><i class="fa fa-picture-o"></i>explore</button>
                 </div>    
             )}
 

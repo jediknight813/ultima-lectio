@@ -124,6 +124,7 @@ export const LoginUser = async (req, res) => {
 export const getUser = async (req, res) => {
     //console.log("here in get user controller")
     const { id } = req.params;
+    //console.log(req.params)
     //console.log(id)
 
     if (!await User.findById(id));

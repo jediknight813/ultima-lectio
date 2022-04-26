@@ -20,6 +20,8 @@ export const likePost = (id) => API.patch(`${"posts/"}${id}/likePost`);
 
 export const bookmarkPost = (id) => API.patch(`${"users/"}${id}/bookmark`);
 
+export const fetchTags = () => API.get("posts/tags");
+
 
 export const add_comment_to_post = (id, comment) => API.patch(`${"posts/"}${id}/add_comment_to_post`, comment);
 

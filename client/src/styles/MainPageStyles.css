@@ -26,3 +26,14 @@
     }
 
 }
+
+@media (max-width: 500px) { 
+    .center_posts_parent {
+        width: 100%;
+        min-width: 200px;
+    }
+    .center_post_menu_parent div h1{
+        font-size: 9px;
+    }
+
+}

@@ -6,10 +6,10 @@ import moment from 'moment';
 
 const Comment = ( { comment }  ) => {
     const [comment_user, set_comment_user] = useState(null)
-    const [current_user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
-    const dispatch = useDispatch()
+    //const [current_user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+    //const dispatch = useDispatch()
     
-    //console.log( comment)
+    //console.log(comment)
 
     useEffect(() => {   
     const fetchData = async () => {
@@ -19,7 +19,7 @@ const Comment = ( { comment }  ) => {
     }
     fetchData()
         .catch(console.error);;
-    }, [])
+    }, [comment?.user_id])
 
     return (
         <div className="comment_container">
