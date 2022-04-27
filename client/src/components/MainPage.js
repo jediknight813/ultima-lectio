@@ -76,7 +76,7 @@ const MainPage = () => {
             <Header />
             <div className='center_posts_parent'>
                 <div className="center_post_menu_parent">
-                    <img alt="profile_image" className="create_post_profile_image" src={user?.result?.profile_image}/>
+                    <img referrerpolicy="no-referrer" alt="profile_image" className="create_post_profile_image" src={user?.result?.profile_image}/>
                     <div className="open_post_menu" onClick={() => set_create_edit_post_menu_status(true)}> <h1> {"What's on your mind "+ user?.result?.username+"?"}</h1> </div>
                 </div>
 

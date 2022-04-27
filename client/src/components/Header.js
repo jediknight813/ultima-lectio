@@ -50,7 +50,7 @@ const Header = () => {
     }
 
     function search() {
-        console.log("here")
+        //console.log("here")
         navigate(`/search/${searchValue.trim()}`)
     }
 
@@ -89,7 +89,7 @@ const Header = () => {
             <div className="searchbar_parent">
                 <i class="fa fa-search"></i>
 
-                <form onSubmit={search}>
+                <form className="search_form_input_parent" onSubmit={search}>
                     <input value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder="Search" type="text" />
                 </form>
 
@@ -97,16 +97,14 @@ const Header = () => {
 
 
             <div className="username_and_image_parent">
-                <i onClick={() => navigate("/Notifications")} class="fa fa-commenting" ></i>
                 <i onClick={() => navigate("/Notifications")} class="fa fa-bell" ></i>
                 <h1 className="username_text"> {user?.result?.username} </h1>
-                <img onClick={() => hide_or_show_settings_menu()} className="profile_image" alt="profile img" src={user?.result?.profile_image}/>
+                <img referrerpolicy="no-referrer" onClick={() => hide_or_show_settings_menu()} className="profile_image" alt="profile img" src={user?.result?.profile_image}/>
             </div>
 
             {(show_settings_drop_down === true) && (
                 <div className="profile_drop_down_menu">
                     <button><i class="fa fa-user-circle-o"></i>profile</button>
-                    <button onClick={() => navigate("/Notifications")}><i class="fa fa-commenting"></i>comments</button>
                     <button onClick={() => navigate("/Notifications")}><i class="fa fa-bell"></i>notifications</button>
                     <button onClick={() => logout()}><i class="fa fa-share"></i>logout</button>
                 </div>    
@@ -132,3 +130,5 @@ const Header = () => {
 export default Header
 
 //  <button><i class="fa fa-plus"></i>create post</button>
+//  <i onClick={() => navigate("/Notifications")} class="fa fa-commenting" ></i>
+//  <button onClick={() => navigate("/Notifications")}><i class="fa fa-commenting"></i>comments</button>

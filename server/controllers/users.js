@@ -145,12 +145,12 @@ export const bookmarkPost = async (req, res) => {
     const user = await User.findById(req.userId);
 
     if (user.bookmarked_posts.includes(id) === true) {
-        console.log("unbookmarked post")
+        //console.log("unbookmarked post")
         const updatedUser = await User.findByIdAndUpdate(req.userId,  { $pull: { bookmarked_posts: id } }, { new: true });
         res.json(updatedUser);
     }
     else {
-        console.log("bookmarked post")
+        //console.log("bookmarked post")
         const updatedUser = await User.findByIdAndUpdate(req.userId,  { $addToSet: { bookmarked_posts: id } }, { new: true });
         res.json(updatedUser);
     }

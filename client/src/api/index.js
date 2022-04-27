@@ -34,6 +34,9 @@ export const fetchPostsWithTag = ( tag ) => API.post(`${"posts/tag"}/${tag}`);
 
 export const fetchPostsWithSearch = ( search ) => API.post(`${"posts/search"}/${search}`);
 
+export const fetchPostWithId = (id) => API.post(`${"posts/getPost"}/${id}`);
+
+export const createNotifcation = (newNotifcation) => API.post("notifications/", newNotifcation);
 
 export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);
 export const SignInGoogleUser = (googleId) => API.post("users/google/", googleId);

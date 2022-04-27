@@ -26,7 +26,7 @@ const Comment = ( { comment }  ) => {
             {comment_user?.profile_image === undefined ? (
                 <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
             ):(
-                <img alt="profile_img" src={comment_user?.profile_image}/>
+                <img referrerpolicy="no-referrer" alt="profile_img" src={comment_user?.profile_image}/>
             )}
 
             <div>

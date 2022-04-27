@@ -25,7 +25,7 @@ const DisplayPostsWithTag = () => {
 
     useEffect(() => {   
         const fetchData = async () => {
-            console.log(id)
+            //console.log(id)
             const { data } = await api.fetchPostsWithTag(id)
             if (data !== undefined) {
                 //console.log(data)
@@ -34,7 +34,7 @@ const DisplayPostsWithTag = () => {
         }
         fetchData()
             .catch(console.error);;
-    }, [id])
+    }, [id, updating_post, create_edit_post_menu])
 
     const passedFunction = (data) => {
         //console.log(data)
@@ -44,7 +44,8 @@ const DisplayPostsWithTag = () => {
     var update_post = {type: "update", post: post_to_edit}
 
     const close_create_and_edit_post_menu = () => {
-        set_update_post(false)
+        setTimeout(() => { set_update_post(false); }, "500")
+        //set_update_post(false)
         set_create_edit_post_menu_status(false)
     };
 
@@ -80,6 +81,5 @@ const DisplayPostsWithTag = () => {
     )
 
 }
-
 
 export default DisplayPostsWithTag

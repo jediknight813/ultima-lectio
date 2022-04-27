@@ -152,9 +152,19 @@ export const getPostsWithSearch = async (req, res) => {
 
     try {        
         const posts = await Post.find( {message} )
+        //console.log("posts found")
         res.json(posts)
 
     } catch (error) {
         res.status(404).json({message: "no posts with matching tags found"})
     }
+}
+
+
+export const getPostWithId = async (req, res) => {
+    const { id } = req.params
+    //console.log(id)
+    if (!await Post.findById(id));
+    const user = await Post.findById(id);
+    res.json(user);
 }

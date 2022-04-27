@@ -42,7 +42,7 @@
     height: 100%;
     justify-content: center;
     align-items: center;
-    width: 330px;
+    width: 260px;
     
 }
 
@@ -79,7 +79,7 @@
 
 .searchbar_parent {
     display: flex;
-    width: 70%;
+    flex-grow: 1;
     margin-left: 10px;
     justify-content: center;
     align-items: center;
@@ -88,10 +88,13 @@
 .navButtonParent {
     display: none;
 }
+.searchbar_parent form{
+    width: 100%;
+}
 
 .searchbar_parent input{
-    width: 85%;
     height: 30px;
+    width: 100%;
     font-family: "Ubuntu",sans-serif;
     font-weight: bold;
     border-bottom-right-radius: 10px;
@@ -101,6 +104,7 @@
     color: white;
     outline: none;
 }
+
 
 .searchbar_parent i{
     color: white;
@@ -199,10 +203,7 @@
 
 
 @media (max-width: 1084px) { 
-    .searchbar_parent {
-        display: none;
-    }
-    
+
     .username_text {
         font-size: 10px;
     }
@@ -224,6 +225,11 @@
     .home_button {
         display: none;
     }
+
+    .searchbar_parent {
+        display: none;
+    }
+    
 }
 
 

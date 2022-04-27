@@ -9,47 +9,28 @@ import Post from './Post';
 import CreateOrEditPost from "./CreateOrEditPost";
 
 
-const SearchPosts = () => {
+const PostViewer = () => {
     const [posts, setPosts] = useState(undefined)
     const { id } = useParams()
-    const dispatch = useDispatch()
     const [updating_post, set_update_post] = useState(false)
     const [post_to_edit, set_post_to_edit] = useState(null)
     const [create_edit_post_menu, set_create_edit_post_menu_status] = useState(false)
     const [searchStatus, SetSearchStatus] = useState(true)
 
 
-    //const posts = useSelector((state) => state.posts);
-    //console.log(id)
-    //dispatch(getPostsWithTag(post.trim())
-
-    //console.log(posts)
-
     useEffect(() => {   
         const fetchData = async () => {
-            console.log(id)
-            const { data } = await api.fetchPostsWithSearch(id)
+            const { data } = await api.fetchPostWithId(id)
+            //console.log(data)
             if (data !== undefined) {
-                //console.log(data)
-                setPosts(data)
-                check_if_search_has_results()
+                setPosts([data])
             }
         }
         fetchData()
-            .catch(console.error);;
+            .catch( check_if_search_has_results() );;
     }, [id, updating_post, create_edit_post_menu])
 
-    //setTimeout(() => { check_if_search_has_results() }, "5000")
-
-    function check_if_search_has_results() {
-        if (posts?.length < 1) {
-            //console.log("here")
-            SetSearchStatus(false)
-        }
-    }
- 
     const passedFunction = (data) => {
-        //console.log(data)
         set_post_to_edit(data)
         set_update_post(true)
     };
@@ -60,6 +41,17 @@ const SearchPosts = () => {
         set_create_edit_post_menu_status(false)
     };
 
+    setTimeout(() => { check_if_search_has_results() }, "5000")
+
+
+    function check_if_search_has_results() {
+        //console.log(posts)
+        if (posts === []) {
+            if (posts[0] === null) {
+                SetSearchStatus(false)
+            }
+        }
+    }
 
     return (
         <div className="main_page_parent"> 
@@ -75,30 +67,30 @@ const SearchPosts = () => {
                     </div>
                     )}
 
-                {(posts !== undefined) && (
+                {(posts !== undefined && posts?.[0] !== null) && (
                     <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
                         {[...posts].reverse().map((post) => (
                             <Post post={post} func={passedFunction} />
                         ))}
                     </div>
                 )}
-                {(posts === undefined || posts?.length < 1 && searchStatus === true) && (
+                {(posts === undefined || posts === null) && (
                     <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
                         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                         <h1>Loading..</h1>
                     </div>
                 )}
 
-                {(searchStatus === false) && (
+                {(posts?.[0] === null) && (
                     <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
                         <h1>No Results Found</h1>
                     </div>
                 )}
+
             </div>
         </div>
     )
 
 }
 
-
-export default SearchPosts
+export default PostViewer

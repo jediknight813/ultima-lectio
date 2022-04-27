@@ -46,12 +46,15 @@ const Post = ( post ) => {
         .catch(console.error);;
     }, [post?.post?.creator])
 
+    
     function like_or_unlike_post() {
         if (post.post.likes.includes(post_user._id) === true) {
             dispatch(likePost(post.post._id))
+            send_like_notification()
         }
         else {
             dispatch(likePost(post.post._id))
+            send_like_notification()
         }
         
     }
@@ -64,23 +67,48 @@ const Post = ( post ) => {
         }
     }
 
+    const send_bookmark_notification = async () => {
+        if (is_current_user_post === false) {
+            api.createNotifcation({"type": "bookmark", "sent_from": current_user?.result?._id, "sent_to": post.post?.creator, "post_id": post.post?._id, "status": "unread", createdAt: new Date() })
+        }
+       
+    }
+
+    const send_like_notification = async () => {
+        if (is_current_user_post === false) {
+            api.createNotifcation({"type": "like", "sent_from": current_user?.result?._id, "sent_to": post.post?.creator, "post_id": post.post?._id, "status": "unread", createdAt: new Date() })
+        }
+    }
+
     //console.log("here")
     //console.log(bookmarked_posts)
+
 
     function bookmark_or_unbookmark_post() {
         //console.log(bookmarked_posts)
         dispatch(BookMarkPost(post.post._id))
+        send_bookmark_notification()
         setTimeout(() => {
             update_current_user();
           }, 1000)
     }
 
+
     const send_comment = async (e) => {
         e.preventDefault();
         //console.log(UserComment)
         dispatch(comment_on_post(post.post._id, UserComment))
+        send_comment_notification()
         SetUserComment({createdAt: "", comment: "", user_id: ""})
     };
+
+
+    const send_comment_notification = async () => {
+        if (is_current_user_post === false) {
+            api.createNotifcation({"type": "comment", "sent_from": current_user?.result?._id, "sent_to": post.post?.creator, "post_id": post.post?._id, "status": "unread", comment: UserComment, createdAt: new Date() })
+        }
+    }
+
 
     var is_current_user_post = false
     //var editing_post = true
@@ -89,7 +117,7 @@ const Post = ( post ) => {
         is_current_user_post = true
    }
 
-    //console.log(bookmarked_posts)
+    //console.log(post_user?.profile_image)
     //console.log(bookmarked_posts.bookmarked_posts.includes(post.post._id), post.post._id, bookmarked_posts.bookmarked_posts)
     
     return (
@@ -99,19 +127,17 @@ const Post = ( post ) => {
                 {post_user?.profile_image === undefined ? (
                     <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                 ):(
-                    <img alt="profile_img" src={post_user?.profile_image}/>
+                    <img referrerpolicy="no-referrer" alt="profile_img" src={post_user?.profile_image}/>
                 )}
 
                 <div>
                     <h1>{post_user?.username}</h1>
                     <h2>{moment(post.post.createdAt).fromNow()}</h2>
                 </div>
-
+                
                 {(is_current_user_post === true) && (
                     <button style={{"marginLeft": "auto", color: "white", backgroundColor: "transparent", border:"none", fontSize: "46px", cursor: "pointer"}} onClick={() => post.func(post?.post)}> <i class="material-icons">more_horiz</i> </button>
                 )}
-
-
             </div>
                 {(post.post.tags?.length >= 1 && post.post?.tags[0].split("").length > 1) && (
                     <div style={{"display": "flex", width: "90%", gap: "10px", fontWeight: "bold", fontSize:" 15px"}}>
@@ -165,10 +191,12 @@ const Post = ( post ) => {
 
                 {bookmarked_posts?.bookmarked_posts?.includes(post.post._id) ? (
                     <div className="bookmark_post_container">
+                        <button style={{color: "white", backgroundColor: "transparent", border:"none", fontSize: "28px", cursor: "pointer", marginRight: "8px"}} onClick={() => navigate(`/post/${post?.post?._id}`)}> <i class="fa fa-share"></i></button>
                         <i onClick={() => bookmark_or_unbookmark_post()} class="fa fa-bookmark"></i>
                     </div>
                 ):(
                     <div className="bookmark_post_container">
+                        <button style={{color: "white", backgroundColor: "transparent", border:"none", fontSize: "28px", cursor: "pointer", marginRight: "8px"}} onClick={() => navigate(`/post/${post?.post?._id}`)}> <i class="fa fa-share"></i></button>
                         <i onClick={() => bookmark_or_unbookmark_post()} class="fa fa-bookmark-o"></i>
                     </div>
                 )}

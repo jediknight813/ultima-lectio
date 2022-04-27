@@ -13,7 +13,7 @@ import Notifications from './components/notifications';
 import DisplayPostsWithTag from './components/DisplayPostWithTag';
 import ExplorePage from './components/ExplorePage';
 import SearchPosts from './components/SearchPosts';
-
+import PostViewer from './components/PostViewer';
 
 import {
   BrowserRouter,
@@ -34,6 +34,7 @@ ReactDOM.render(
           <Route path="/tags/:id" element={<DisplayPostsWithTag /> } />
           <Route path="/search/:id" element={<SearchPosts /> } />
           <Route path="/Explore" element={<ExplorePage /> } />
+          <Route path="/post/:id" element={<PostViewer /> } />
         </Routes>
       </BrowserRouter>
   </Provider>,

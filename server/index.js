@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 //server routes
 import postRoutes from './routes/posts.js'
 import userRoutes from './routes/users.js'
+import notificationRoutes from './routes/notifications.js'
 
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(cors());
 
 app.use('/posts', postRoutes)
 app.use('/users', userRoutes)
+app.use('/notifications', notificationRoutes)
 
 
 app.get('/', (req, res) => {

@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
     posts: Array,
     friends: Array,
     profile_image: String,
-    notifications: Array,
+    notifications: [Object],
     bookmarked_posts: Array
 })
 
