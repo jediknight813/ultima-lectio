@@ -5,6 +5,7 @@ import {useNavigate, useLocation} from 'react-router-dom';
 import '../styles/HeaderStyles.css'
 import PageLogo from '../images/pageLogo.png'
 import decode from 'jwt-decode'
+import * as api from '../api/index.js'
 
 
 const Header = () => {
@@ -13,32 +14,48 @@ const Header = () => {
     const [show_nav_drop_down, set_nav_drop_down] = useState(false)
     const [comments, setCommentStatus] = useState({"show": false, "amount": 0})
     const [notifications, setnotificationsStatus] = useState({"show": false, "amount": 0})
+    const [unread_notifications, set_unread_notifications]= useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation()
-
+    const [current_user, set_current_user] = useState(null)
     const [searchValue, setSearchValue] = useState()
 
 
-    function check_comment_and_notification_status() {
-
-    }
-
     useEffect(() => {
+        
+        const fetchData = async () => {
+            const { data } = await api.fetchUser(user?.result?._id)
+            //console.log(data)
+            set_current_user(data);
+            check_notification_status()
+        }
+        fetchData()
+            .catch(console.error);
+            
+        check_notification_status()
         const token = user?.token;
-
         if (user === null) {
             navigate('/')
         }
-
         if (token) {
             const decodedToken = decode(token)
 
             if(decodedToken.exp * 1000 < new Date().getTime()) logout();
         }
-
         setUser(JSON.parse(localStorage.getItem('profile')))
     }, [location])
+
+
+    function check_notification_status() {
+        if (current_user !== null) {
+            current_user.notifications.forEach(e => {
+                if (e.status === "unread") {
+                    set_unread_notifications(true)
+                }
+            })
+        }
+    }
     
     
     const logout = () => {
@@ -97,7 +114,17 @@ const Header = () => {
 
 
             <div className="username_and_image_parent">
-                <i onClick={() => navigate("/Notifications")} class="fa fa-bell" ></i>
+
+                {(unread_notifications === true) && (
+                    <div className="header_bell_with_notification_parent">
+                        <i style={{color: "rgb(234, 74, 74)", fontSize: "15px", position: "absolute", marginTop: "-4px", marginLeft: "9px"}} class="fa fa-circle"></i>
+                        <i onClick={() => navigate("/Notifications")} class="fa fa-bell" ></i>
+                    </div>    
+                )}
+                {(unread_notifications === false) && (
+                    <i onClick={() => navigate("/Notifications")} class="fa fa-bell" ></i>
+                )}
+
                 <h1 className="username_text"> {user?.result?.username} </h1>
                 <img referrerpolicy="no-referrer" onClick={() => hide_or_show_settings_menu()} className="profile_image" alt="profile img" src={user?.result?.profile_image}/>
             </div>
@@ -105,7 +132,12 @@ const Header = () => {
             {(show_settings_drop_down === true) && (
                 <div className="profile_drop_down_menu">
                     <button><i class="fa fa-user-circle-o"></i>profile</button>
-                    <button onClick={() => navigate("/Notifications")}><i class="fa fa-bell"></i>notifications</button>
+                    {(unread_notifications === true) && (
+                        <button onClick={() => navigate("/Notifications")}><i style={{color: "rgb(234, 74, 74)", fontSize: "15px", position: "absolute", marginTop: "-4px", marginLeft: "9px"}} class="fa fa-circle"></i> <i class="fa fa-bell"></i>notifications</button>
+                    )}
+                    {(unread_notifications === false) && (
+                        <button onClick={() => navigate("/Notifications")}><i class="fa fa-bell"></i>notifications</button>
+                    )}
                     <button onClick={() => logout()}><i class="fa fa-share"></i>logout</button>
                 </div>    
             )}

@@ -1,6 +1,6 @@
 import express from "express";
 
-import {createNotification } from "../controllers/notifications.js";
+import {createNotification, read_notification } from "../controllers/notifications.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
@@ -10,6 +10,8 @@ const router = express.Router();
 //router.get('/tags', getTags);
 
 router.post('/', auth, createNotification);
+
+router.post('/read_notification/', auth, read_notification)
 
 //router.patch('/:id', auth, updatePost)
 

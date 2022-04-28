@@ -136,9 +136,6 @@ export const getUser = async (req, res) => {
 
 
 export const bookmarkPost = async (req, res) => {
-    //console.log("here")
-    //console.log(req.params)
-    //console.log(console.body)
     const { id } = req.params;
     if (!req.userId) return res.json({message: 'Unauthenticated'})
     if (!await User.findById(req.userId));
@@ -154,11 +151,7 @@ export const bookmarkPost = async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(req.userId,  { $addToSet: { bookmarked_posts: id } }, { new: true });
         res.json(updatedUser);
     }
-    
 }
-
-
-
 
     //res.status(200).json(user);
 

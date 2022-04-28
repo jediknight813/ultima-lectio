@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getUsers, createUser, updateUser, LoginUser, SignInGoogleUser, getUser, bookmarkPost} from "../controllers/users.js";
+import {getUsers, createUser, updateUser, LoginUser, SignInGoogleUser, getUser, bookmarkPost} from "../controllers/users.js";
 import auth from "../middleware/auth.js";
 
 

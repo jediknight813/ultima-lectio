@@ -3,6 +3,7 @@ import '../styles/notificationStyles.css'
 import Header from "./Header";
 import {useNavigate, useLocation} from 'react-router-dom';
 import * as api from '../api/index.js'
+import NotificationsChild from "./NotificationChild";
 
 
 const Notifications = () => {
@@ -41,12 +42,10 @@ const Notifications = () => {
                     </div>
                 )}
 
-                {(current_user_data?.notifications?.length > 1) && (
-                    <div>
+                {(current_user_data?.notifications?.length >= 1) && (
+                    <div style={{'marginTop': "0px"}} className="notfications_parent_container">
                         {[...current_user_data.notifications].reverse().map((notification) => (
-                            <div>
-                                {notification.type}
-                            </div>    
+                            <NotificationsChild notification={notification} />    
                         ))}
                     </div>
                 )}

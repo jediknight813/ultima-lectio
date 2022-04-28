@@ -8,9 +8,118 @@
     justify-content: center;
 }
 
+
 .notfications_parent_container {
     width: 600px;
     margin-top: 80px;
-    background-color: rgb(53, 182, 225);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+
+.notification_child_parent_unread {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    background-color: #423e79;
+    color: white;
+    border-radius: 8px;
+    align-items: center;
+    gap: 5px;
+}
+
+.notification_child_parent_unread i {
+    margin-left: 10px;
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+
+
+.notification_child_parent {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    background-color: #222132;
+    color: white;
+    border-radius: 8px;
+    align-items: center;
+    gap: 5px;
+}
+
+.notification_time {
+    font-size: 18px;
+    margin-top: 12px;
+    font-weight: 100;
+}
+
+.notification_child_text {
+    font-size: 18px;
+    margin-top: 12px;
+    font-weight: 100;
+}
+
+
+.notification_child_parent i{
+    margin-left: 10px;
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.notification_username {
+    display:inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 18ch;
+}
+
+
+@media (max-width: 630px) { 
+
+    .notfications_parent_container {
+        width: 100%;
+    }
+    .notification_time {
+        font-size: 11px;
+        margin-top: 3px;
+    }
+
+    .notification_child_text {
+        font-size: 11px;
+        margin-top: 3px;
+    }
+
+    .notification_child_parent div {
+        font-size: 9px;
+        margin-top: -5px;
+    }
+
+}
+
+@media (max-width: 350px) { 
+
+    .notfications_parent_container {
+        width: 100%;
+    }
+
+    .notification_child_text {
+        font-size: 11px;
+        margin-top: 3px;
+    }
+
+    .notification_child_parent div {
+        font-size: 9px;
+        margin-top: -5px;
+    }
+
+    .notification_time {
+        visibility: hidden;
+        display: block;
+        position: absolute;
+    }
+
 }

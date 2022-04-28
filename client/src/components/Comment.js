@@ -12,14 +12,14 @@ const Comment = ( { comment }  ) => {
     //console.log(comment)
 
     useEffect(() => {   
-    const fetchData = async () => {
-        const { data } = await api.fetchUser(comment?.user_id)
-        //console.log(comment)
-        set_comment_user(data, comment);
-    }
-    fetchData()
-        .catch(console.error);;
-    }, [comment?.user_id])
+        const fetchData = async () => {
+            const { data } = await api.fetchUser(comment?.user_id)
+            //console.log(comment)
+            set_comment_user(data, comment);
+        }
+        fetchData()
+            .catch(console.error);;
+        }, [comment?.user_id])
 
     return (
         <div className="comment_container">

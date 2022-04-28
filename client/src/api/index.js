@@ -19,6 +19,8 @@ export const deletePost = (id) => API.delete(`${"posts"}/${id}`);
 export const likePost = (id) => API.patch(`${"posts/"}${id}/likePost`);
 
 export const bookmarkPost = (id) => API.patch(`${"users/"}${id}/bookmark`);
+export const read_notification = (notification) =>  API.post("/notifications/read_notification/", notification);
+
 
 export const fetchTags = () => API.get("posts/tags");
 
@@ -37,6 +39,7 @@ export const fetchPostsWithSearch = ( search ) => API.post(`${"posts/search"}/${
 export const fetchPostWithId = (id) => API.post(`${"posts/getPost"}/${id}`);
 
 export const createNotifcation = (newNotifcation) => API.post("notifications/", newNotifcation);
+
 
 export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);
 export const SignInGoogleUser = (googleId) => API.post("users/google/", googleId);
