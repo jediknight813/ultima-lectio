@@ -46,7 +46,7 @@ const Post = ( post ) => {
         .catch(console.error);;
     }, [post?.post?.creator])
 
-    
+
     function like_or_unlike_post() {
         if (post.post.likes.includes(post_user._id) === true) {
             dispatch(likePost(post.post._id))
@@ -127,11 +127,11 @@ const Post = ( post ) => {
                 {post_user?.profile_image === undefined ? (
                     <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                 ):(
-                    <img referrerpolicy="no-referrer" alt="profile_img" src={post_user?.profile_image}/>
+                    <img style={{"cursor": "pointer"}} onClick={() => navigate(`/profile/${post?.post?.creator}`)} referrerpolicy="no-referrer" alt="profile_img" src={post_user?.profile_image}/>
                 )}
 
                 <div>
-                    <h1>{post_user?.username}</h1>
+                    <h1 style={{"cursor": "pointer"}} onClick={() => navigate(`/profile/${post?.post?.creator}`)}>{post_user?.username}</h1>
                     <h2>{moment(post.post.createdAt).fromNow()}</h2>
                 </div>
                 

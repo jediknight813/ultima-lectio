@@ -31,14 +31,13 @@ export const add_comment_to_post = (id, comment) => API.patch(`${"posts/"}${id}/
 export const fetchUsers = () => API.get("users/");
 export const createUser = (newUser) => API.post("users/", newUser);
 export const LoginCurrentUser = (LoginData) => API.post("users/Login/", LoginData);
-
 export const fetchPostsWithTag = ( tag ) => API.post(`${"posts/tag"}/${tag}`);
-
 export const fetchPostsWithSearch = ( search ) => API.post(`${"posts/search"}/${search}`);
-
 export const fetchPostWithId = (id) => API.post(`${"posts/getPost"}/${id}`);
 
+
 export const createNotifcation = (newNotifcation) => API.post("notifications/", newNotifcation);
+export const update_friend_request_notification = (object) => API.patch(`${"notifications/update_notification"}`, object);
 
 
 export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);

@@ -44,6 +44,11 @@ const Notifications = () => {
 
                 {(current_user_data?.notifications?.length >= 1) && (
                     <div style={{'marginTop': "0px"}} className="notfications_parent_container">
+                        <div className="notifications_title_and_button_container">
+                            <h1 className="notifications_title_text"> Notifications </h1>
+                            <div className="notifications_line"></div>
+                        </div>
+
                         {[...current_user_data.notifications].reverse().map((notification) => (
                             <NotificationsChild notification={notification} />    
                         ))}
@@ -55,6 +60,14 @@ const Notifications = () => {
         </div>
     )
 }
+
+//<div className="notifications_button_container">
+//    <button> All </button>
+//    <button> Comments </button>
+//    <button> likes </button>
+//    <button> Friend Requests </button>
+//    <button> Saves </button>
+//</div>
 
 
 export default Notifications

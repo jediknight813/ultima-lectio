@@ -32,7 +32,7 @@ const Header = () => {
         }
         fetchData()
             .catch(console.error);
-            
+
         check_notification_status()
         const token = user?.token;
         if (user === null) {
@@ -94,7 +94,7 @@ const Header = () => {
         <div className="HeaderParent">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
-            <img className="page_logo" alt="page logo" src={PageLogo}/>
+            <img onClick={() => navigate("/mainPage")} className="page_logo" alt="page logo" src={PageLogo}/>
 
             <div className="navButtonParent">
                 <i onClick={() => hide_or_show_nav_menu()} class="fa fa-navicon"> </i>
@@ -125,13 +125,13 @@ const Header = () => {
                     <i onClick={() => navigate("/Notifications")} class="fa fa-bell" ></i>
                 )}
 
-                <h1 className="username_text"> {user?.result?.username} </h1>
+                <h1 onClick={() => navigate(`/profile/${user?.result?._id}`)} className="username_text"> {user?.result?.username} </h1>
                 <img referrerpolicy="no-referrer" onClick={() => hide_or_show_settings_menu()} className="profile_image" alt="profile img" src={user?.result?.profile_image}/>
             </div>
 
             {(show_settings_drop_down === true) && (
                 <div className="profile_drop_down_menu">
-                    <button><i class="fa fa-user-circle-o"></i>profile</button>
+                    <button onClick={() => navigate(`/profile/${user?.result?._id}`)}><i class="fa fa-user-circle-o"></i>profile</button>
                     {(unread_notifications === true) && (
                         <button onClick={() => navigate("/Notifications")}><i style={{color: "rgb(234, 74, 74)", fontSize: "15px", position: "absolute", marginTop: "-4px", marginLeft: "9px"}} class="fa fa-circle"></i> <i class="fa fa-bell"></i>notifications</button>
                     )}

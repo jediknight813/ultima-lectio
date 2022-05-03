@@ -71,3 +71,11 @@ export const read_notification = async (req, res) => {
         res.status(500).json({message: " something went wrong "})
     }
 }
+
+
+export const update_notification = async (req, res) => {
+    const { id, request_status } = req.body
+    const push = await User.findByIdAndUpdate(req.userId, { $pull: { notifications: {notification_id: id} } }, { new: true } )
+    console.log(push)
+
+}

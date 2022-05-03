@@ -30,8 +30,11 @@ const SearchPosts = () => {
             console.log(id)
             const { data } = await api.fetchPostsWithSearch(id)
             if (data !== undefined) {
-                //console.log(data)
+                console.log(data)
                 setPosts(data)
+                if (data.length === 0) {
+                    SetSearchStatus(false)
+                }
                 check_if_search_has_results()
             }
         }
@@ -82,7 +85,7 @@ const SearchPosts = () => {
                         ))}
                     </div>
                 )}
-                {(posts === undefined || posts?.length < 1 && searchStatus === true) && (
+                {(posts === undefined || posts?.length < 1) && (searchStatus === true) && (
                     <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
                         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                         <h1>Loading..</h1>

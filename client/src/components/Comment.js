@@ -2,14 +2,13 @@ import React, {useState, useEffect} from "react";
 import * as api from '../api/index.js';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import {useNavigate, useLocation} from 'react-router-dom';
 
 
 const Comment = ( { comment }  ) => {
     const [comment_user, set_comment_user] = useState(null)
-    //const [current_user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
-    //const dispatch = useDispatch()
-    
-    //console.log(comment)
+    const navigate = useNavigate()
+
 
     useEffect(() => {   
         const fetchData = async () => {
@@ -26,7 +25,7 @@ const Comment = ( { comment }  ) => {
             {comment_user?.profile_image === undefined ? (
                 <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
             ):(
-                <img referrerpolicy="no-referrer" alt="profile_img" src={comment_user?.profile_image}/>
+                <img style={{"cursor": "pointer"}} onClick={() => navigate(`/profile/${comment_user?._id}`)} referrerpolicy="no-referrer" alt="profile_img" src={comment_user?.profile_image}/>
             )}
 
             <div>

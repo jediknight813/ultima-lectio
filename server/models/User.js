@@ -10,7 +10,11 @@ const userSchema = mongoose.Schema({
     friends: Array,
     profile_image: String,
     notifications: [Object],
-    bookmarked_posts: Array
+    bookmarked_posts: Array,
+    createdAt: {
+        type: Date,
+        default: new Date()
+    },
 })
 
 
