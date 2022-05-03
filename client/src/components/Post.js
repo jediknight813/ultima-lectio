@@ -88,9 +88,7 @@ const Post = ( post ) => {
         //console.log(bookmarked_posts)
         dispatch(BookMarkPost(post.post._id))
         send_bookmark_notification()
-        setTimeout(() => {
-            update_current_user();
-          }, 1000)
+        setTimeout(() => { update_current_user(); }, 1000)
     }
 
 

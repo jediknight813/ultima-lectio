@@ -11,9 +11,8 @@ const ProfilePage = () => {
     const [profile_data, set_profile_data] = useState(undefined)
     const [current_user_data, set_current_user_data] = useState(undefined)
     const [user_id, setUser_id] = useState(JSON.parse(localStorage.getItem('profile')))
-    
-    const [follow_state, set_follow_state] = useState("Add Friend")
-
+    const [button_pressed, press_button] = useState(0)
+    const [follow_state, set_follow_state] = useState(undefined)
     const [notification_id, set_notification_id] = useState(undefined)
     const [view_posts_state, set_view_posts_state] = useState(false)
     const [view_friends_state, set_view_friends_state] = useState(false)
@@ -62,43 +61,68 @@ const ProfilePage = () => {
 
         if (type === "Add Friend") {
             api.createNotifcation({"type": "friend_request", "sent_from": current_user_data?.data?._id, "sent_to": profile_data?._id, "status": "unread", createdAt: new Date(), request_status: "undecided", notification_id: random_string })
-            check_friend_status()
         }
 
         if (type === "Accept") {
-            api.update_friend_request_notification( {"id": notification_id, "request_status": "accepted"} )
-            check_friend_status()
+            api.update_friend_request_notification( {"id": notification_id, "request_status": "accepted", "remove": "false", "sent_to": profile_data?._id, "sent_from": current_user_data?.data?._id} )
+            api.add_friend({sent_to: profile_data?._id, sent_from: current_user_data?.data?._id})
         }
 
         if (type === "Decline") {
-            api.update_friend_request_notification( {"id": notification_id, "request_status": "declined"} )
-            check_friend_status()
+            api.update_friend_request_notification( {"id": notification_id, "request_status": "declined", "remove": "false", "sent_to": profile_data?._id, "sent_from": current_user_data?.data?._id} )
         }
 
+        if (type === "Cancel Friend Request") {
+            api.update_friend_request_notification( {"id": notification_id, "request_status": "declined", "remove": "true", "sent_to": profile_data?._id, "sent_from": current_user_data?.data?._id} )
+            press_button(button_pressed+1)
+        }
+
+        if (type === "Remove Friend") {
+            api.remove_friend({sent_to: profile_data?._id, sent_from: current_user_data?.data?._id})
+        }
+
+        setTimeout(() => { press_button(button_pressed+1); }, 400)
     }
     
-    function check_friend_status() {
-        if (profile_data?.friends?.includes(current_user_data?.data?._id)) {
+
+    function check_friend_status(current_user, profile_user) {
+        //console.log(current_user?.data, profile_user)
+
+        let current_user_has_sent_friend_request = false
+        profile_user.notifications.forEach(c => {
+            if (c.sent_from === current_user.data._id && c.type === "friend_request") {
+                if (!current_user.data.friends.includes(profile_user._id)) {
+                    current_user_has_sent_friend_request = true
+                    set_follow_state("Cancel Friend Request")
+                }
+            }
+        })
+
+        let profile_user_has_sent_friend_request = false
+        current_user.data.notifications.forEach(c => {
+            if (c.sent_from === profile_user._id && c.type === "friend_request") {
+                if (!current_user.data.friends.includes(profile_user._id)) {
+                    profile_user_has_sent_friend_request = true
+                    set_follow_state("Accept")
+                }
+            }
+        })
+
+
+        if (!profile_user.friends.includes(current_user._id) && current_user_has_sent_friend_request === false && profile_user_has_sent_friend_request === false) {
+            set_follow_state("Add Friend")
+        }
+
+
+        if (current_user.data.friends.includes(profile_user._id)) {
             set_follow_state("Remove Friend")
         }
 
-        profile_data?.notifications?.forEach(e => {
-            if(e?.sent_from === current_user_data?.data?._id && e?.type === "friend_request" && e?.request_status === "undecided") {
-                set_follow_state("Cancel Friend Request")
-            }
-        }) 
-
-        current_user_data?.data?.notifications?.forEach(e => {
-            if (e.sent_from === profile_data?._id && e.type === "friend_request" && e?.request_status === "undecided") {
-                console.log("here")
-                set_follow_state("Accept")
-                set_notification_id(e?.notification_id)
-            }
-        })
     }
 
 
-    useEffect(() => {   
+
+    useEffect(() => {  
         const fetchData = async () => {
             const { data } = await api.fetchUser(id)
             if (data !== undefined) {
@@ -108,12 +132,12 @@ const ProfilePage = () => {
             const current_user = await api.fetchUser(user_id?.result?._id)
             if (current_user !== undefined) {
                 set_current_user_data(current_user)
-                check_friend_status()
             }
+            check_friend_status(current_user, data)
         }
         fetchData()
             .catch(console.error);;
-    }, [id, user_id?.result?._id] )
+    }, [id, user_id?.result?._id, button_pressed] )
     
     return (
         <div className="ProfilePageParentContainer">
@@ -131,12 +155,14 @@ const ProfilePage = () => {
                         <div className="friend_request_parent_container">
                             <button onClick={() => manage_friend_button_submit(follow_state)}> {follow_state} </button>
                             {(follow_state === "Accept") && (
-                                <button onClick={() => manage_friend_button_submit("Decline")}> Decline </button>
+                                <button style={{ "backgroundColor": "rgb(232, 69, 69)"}} onClick={() => manage_friend_button_submit("Decline")}> Decline </button>
                             )}
                         </div>
                     )}
 
-                    <h2>joined {moment(profile_data?.createdAt).fromNow()}</h2>
+                    {(profile_data?.createdAt !== undefined) && (
+                        <h2>joined {moment(profile_data?.createdAt).fromNow()}</h2>
+                    )}
                     <h2>{profile_data?.friends?.length} friends</h2>
                 </div>
                 

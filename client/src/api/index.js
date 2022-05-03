@@ -40,5 +40,9 @@ export const createNotifcation = (newNotifcation) => API.post("notifications/", 
 export const update_friend_request_notification = (object) => API.patch(`${"notifications/update_notification"}`, object);
 
 
+export const remove_friend = (friend) => API.post("notifications/remove_friend", friend);
+export const add_friend = (friend) => API.post("notifications/add_friend", friend);
+
+
 export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);
 export const SignInGoogleUser = (googleId) => API.post("users/google/", googleId);

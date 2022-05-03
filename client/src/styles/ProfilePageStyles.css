@@ -105,3 +105,18 @@
     font-size: 18.2px;
     transition: 0.4s linear;
 }
+
+.friend_request_parent_container button{
+    background-color: rgb(70, 140, 238);
+    border: none;
+    outline: none;
+    font-weight: bold;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-left: 10px;
+}

@@ -74,8 +74,35 @@ export const read_notification = async (req, res) => {
 
 
 export const update_notification = async (req, res) => {
-    const { id, request_status } = req.body
-    const push = await User.findByIdAndUpdate(req.userId, { $pull: { notifications: {notification_id: id} } }, { new: true } )
-    console.log(push)
+    const { id, request_status, sent_to, sent_from, remove } = req.body
+    //console.log(sent_from, id)
 
+
+    const user_one = await User.findByIdAndUpdate(sent_from,  { $pull: { notifications: {notification_id: id} } }, { new: true })
+    const user_two = await User.findByIdAndUpdate(sent_to,  { $pull: { notifications: {notification_id: id} } }, { new: true })
+
+    res.status(200).json("notification updated")
+    //notification['status'] = request_status
+
+    //if (remove === "false") {
+    //    const push = await User.findByIdAndUpdate(sent_to,  { $addToSet: { notifications: notification } }, { new: true });
+    //}
+
+
+}
+
+
+export const add_friend = async (req, res) => {
+    const {sent_to, sent_from } = req.body
+    const user_one = await User.findByIdAndUpdate(sent_to,  { $addToSet: { friends:  sent_from} }, { new: true });
+    const user_two = await User.findByIdAndUpdate(sent_from,  { $addToSet: { friends:  sent_to } }, { new: true });
+    res.status(200).json("friend added")
+}
+
+
+export const remove_friend = async (req, res) => {
+    const {sent_to, sent_from } = req.body
+    const user_one = await User.findByIdAndUpdate(sent_to,  { $pull: { friends:  sent_from} }, { new: true });
+    const user_two = await User.findByIdAndUpdate(sent_from,  { $pull: { friends:  sent_to } }, { new: true });
+    res.status(200).json("friend removed")
 }
