@@ -31,6 +31,7 @@
     gap: 5px;
 }
 
+
 .notification_child_parent_unread i {
     margin-left: 10px;
     margin-right: 5px;
@@ -51,7 +52,7 @@
 }
 
 .notification_time {
-    font-size: 18px;
+    font-size: 15px;
     margin-top: 12px;
     font-weight: 100;
 }
@@ -74,7 +75,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 18ch;
+    max-width: 15ch;
 }
 
 .notifications_line {
@@ -93,6 +94,7 @@
     justify-content: space-between;
     margin-bottom: 10px;
 }
+
 
 .notifications_button_container button{
     background-color: transparent;
@@ -119,11 +121,49 @@
     height: auto;
 }
 
+.accept_decline_button_container {
+    margin-left: auto;
+    margin-right: 10px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.accept_decline_button_container button{
+    border: none;
+    outline: none;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
 @media (max-width: 630px) { 
+    .notification_username {
+        font-size: 10px;
+        max-width: 14ch;
+    }
+
+    .notification_child_parent_unread h1{
+        font-size: 11px;
+        font-weight: normal;
+        
+    }
+    .notification_child_parent h1{
+        font-size: 11px;
+        font-weight: normal;
+    }
+
+    .notification_child_parent_unread div {
+        font-size: 9px;
+        margin-top: -5px;
+    }
 
     .notfications_parent_container {
         width: 100%;
+        align-items: baseline;
     }
+
     .notification_time {
         font-size: 11px;
         margin-top: 3px;
@@ -139,17 +179,26 @@
         margin-top: -5px;
     }
 
+    .accept_decline_button_container {
+        margin-right: 1px;
+    }
+
+    .notification_time {
+        font-size: 10px;
+    }
+
+    .accept_decline_button_container button{
+        padding: 4px;
+        font-size: 10px;
+
+    }
+
 }
 
 @media (max-width: 350px) { 
 
     .notfications_parent_container {
         width: 100%;
-    }
-
-    .notification_child_text {
-        font-size: 11px;
-        margin-top: 3px;
     }
 
     .notification_child_parent div {
@@ -161,6 +210,19 @@
         visibility: hidden;
         display: block;
         position: absolute;
+    }
+
+    .accept_decline_button_container {
+        margin-right: 1px;
+    }
+    .accept_decline_button_container button{
+        padding: 4px;
+        font-size: 8px;
+    }
+
+    .notification_username {
+
+        max-width: 10ch;
     }
 
 }

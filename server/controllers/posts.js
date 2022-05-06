@@ -168,3 +168,21 @@ export const getPostWithId = async (req, res) => {
     const user = await Post.findById(id);
     res.json(user);
 }
+
+export const getUserPosts = async (req, res) => {
+    const { id } = req.params
+    //console.log(id)
+    if (!await Post.find( {creator: id} ));
+    const posts = await Post.find( {creator: id} );
+    //console.log(posts)
+    res.json(posts);
+}
+
+export const getUserBookMarkedPosts = async (req, res) => {
+    const { id } = req.params
+    //console.log(id)
+    if (!await Post.find( { _id: id } ));
+    const posts = await Post.find({ _id: id })
+    //console.log(posts)
+    res.json(posts);
+}

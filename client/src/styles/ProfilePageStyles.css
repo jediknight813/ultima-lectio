@@ -1,12 +1,15 @@
 .ProfilePageParentContainer {
-    width: 100vw;
-    min-height: 100vh;
+    width: 100%;
     display: flex;
     height: auto;
     flex-direction: column;
     align-items: center;
     background-color: #302f42;
     position: absolute;
+    overflow-x: hidden;
+    position: absolute;
+    display: flex;
+    min-height: 100vh;
 }
 
 .profile_image_username_and_date_container {
@@ -119,4 +122,175 @@
     cursor: pointer;
     margin-right: 10px;
     margin-left: 10px;
+}
+
+.profile_bottom_container {
+    margin-top: 20px;
+    width: 1000px;
+    min-height: 300px;
+    background-color: rgb(123, 211, 211);
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+    justify-content: center;
+}
+
+
+.profile_view_posts_parent_container {
+    width: 700px;
+    height: 100vh;
+    overflow-y: scroll;
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    margin-bottom: 30px;
+}
+
+.profile_view_posts_parent_container::-webkit-scrollbar {
+    display: none;
+}
+
+.profile_view_posts_parent_container::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+.profile_about_me_and_friends_container {
+    width: 39%;
+    min-height: 100%;
+    flex-wrap: wrap;
+    height: auto;
+    background-color: aqua;
+    margin-right: 1%;
+}
+
+.profile_side_posts_container {
+    width: 59%;
+    height: 600px;
+    overflow-y: scroll;
+    background-color: rgb(125, 115, 223);
+}
+
+.profile_side_posts_container::-webkit-scrollbar {
+    display: none;
+}
+
+.profile_side_posts_container::-webkit-scrollbar {
+    display: none;
+}
+
+.view_friends_parent_container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: #302f42;
+    margin-bottom: 20px;
+}
+
+.view_friends_header {
+    height: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #222132;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+
+.view_friends_header h1{
+    color: white;
+    margin-top: 20px;
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.about_me_parent_container {
+    width: 100%;
+    height: 200px;
+    background-color: #302f42;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about_me_parent_container textarea {
+    width: 80%;
+    height: 57%;
+    background-color: #1b1925;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    outline: none;
+    resize: none;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.about_me_parent_container h2{
+    color: white;
+    padding: 10px;
+    width: 80%;
+    max-height: 57%;
+    background-color: #1b1925;
+    font-size: 15px;
+    overflow: scroll;
+    overflow-x: hidden;
+    text-overflow: ellipsis; 
+    border-radius: 8px;
+}
+
+.about_me_parent_container h2::-webkit-scrollbar {
+    display: none;
+}
+
+.about_me_parent_container h2::-webkit-scrollbar {
+    display: none;
+}
+
+
+@media (max-width: 1000px) { 
+
+    .profile_bottom_container {
+        width: 100%;
+    }
+
+    
+    .profile_about_me_and_friends_container {
+        width: 100%;
+        min-height: 300px;
+        height: auto;
+        margin-right: 0%;
+    }
+
+    .profile_side_posts_container {
+        width: 100%;
+        min-height: 300px;
+        height: auto;
+    }
+}
+
+
+
+@media (max-width: 700px) { 
+    .profile_view_posts_parent_container {
+        width: 100%;
+        min-width: 200px;
+    }
+
+}
+
+@media (max-width: 500px) { 
+    .profile_view_posts_parent_container {
+        width: 100%;
+        min-width: 200px;
+    }
+
+
 }

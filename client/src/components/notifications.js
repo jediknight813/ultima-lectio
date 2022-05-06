@@ -11,7 +11,6 @@ const Notifications = () => {
     const [current_user_data, set_current_user_data] = useState(undefined)
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
 
-
     useEffect(() => {   
         const fetchData = async () => {
             const { data } = await api.fetchUser(user?.result?._id)

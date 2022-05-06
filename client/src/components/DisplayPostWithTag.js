@@ -47,7 +47,7 @@ const DisplayPostsWithTag = () => {
         setTimeout(() => { set_update_post(false); }, "500")
         //set_update_post(false)
         set_create_edit_post_menu_status(false)
-    };
+    };  
 
     return (
         <div className="main_page_parent"> 

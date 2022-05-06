@@ -132,8 +132,19 @@ export const getUser = async (req, res) => {
     const user = await User.findById(id);
     //console.log(user)
     res.json(user);
-}
+} 
 
+export const updateUserAboutMe = async (req, res) => {
+    const { id, message } = req.body;
+    //console.log(req.body)
+    //console.log(id, message)
+
+    if (!await User.findById(id));
+
+    const user = await User.findByIdAndUpdate(id,  { about_me: message }, { new: true });
+    //.log(user)
+    //res.json(user);
+}
 
 export const bookmarkPost = async (req, res) => {
     const { id } = req.params;

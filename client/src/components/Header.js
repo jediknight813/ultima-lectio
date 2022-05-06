@@ -28,12 +28,11 @@ const Header = () => {
             const { data } = await api.fetchUser(user?.result?._id)
             //console.log(data)
             set_current_user(data);
-            check_notification_status()
+            check_notification_status(data)
         }
         fetchData()
             .catch(console.error);
 
-        check_notification_status()
         const token = user?.token;
         if (user === null) {
             navigate('/')
@@ -43,11 +42,13 @@ const Header = () => {
 
             if(decodedToken.exp * 1000 < new Date().getTime()) logout();
         }
+        
         setUser(JSON.parse(localStorage.getItem('profile')))
+
     }, [location])
 
 
-    function check_notification_status() {
+    function check_notification_status(current_user) {
         if (current_user !== null) {
             current_user.notifications.forEach(e => {
                 if (e.status === "unread") {

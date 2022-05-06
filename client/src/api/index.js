@@ -34,6 +34,8 @@ export const LoginCurrentUser = (LoginData) => API.post("users/Login/", LoginDat
 export const fetchPostsWithTag = ( tag ) => API.post(`${"posts/tag"}/${tag}`);
 export const fetchPostsWithSearch = ( search ) => API.post(`${"posts/search"}/${search}`);
 export const fetchPostWithId = (id) => API.post(`${"posts/getPost"}/${id}`);
+export const fetchUserPosts = (id) => API.post(`${"posts/getUserPosts"}/${id}`);
+export const fetchUserBookMarkedPosts = (id) => API.post(`${"posts/getUserBookMarkedPosts"}/${id}`);
 
 
 export const createNotifcation = (newNotifcation) => API.post("notifications/", newNotifcation);
@@ -42,6 +44,8 @@ export const update_friend_request_notification = (object) => API.patch(`${"noti
 
 export const remove_friend = (friend) => API.post("notifications/remove_friend", friend);
 export const add_friend = (friend) => API.post("notifications/add_friend", friend);
+
+export const updateUserAboutMe = (id) => API.post(`${"users/updateUserAboutMe"}/`, id);
 
 
 export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);

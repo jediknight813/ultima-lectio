@@ -4,9 +4,28 @@ import { useParams } from 'react-router-dom'
 import * as api from '../api/index.js'
 import '../styles/ProfilePageStyles.css'
 import moment from 'moment';
+import CreateOrEditPost from "./CreateOrEditPost";
+import Post from "./Post";
+import decode from 'jwt-decode'
+import {useNavigate, useLocation} from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import FriendListItem from "./Friend_List_Item";
 
 
 const ProfilePage = () => {
+    // post editing
+    const [posts, setPosts] = useState(undefined)
+    const [updating_post, set_update_post] = useState(false)
+    const [post_to_edit, set_post_to_edit] = useState(null)
+    const [create_edit_post_menu, set_create_edit_post_menu_status] = useState(false)
+    var update_post = {type: "update", post: post_to_edit}
+    const [bookmarked_posts, set_bookmarked_posts] = useState(undefined)
+
+
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const { id } = useParams()
     const [profile_data, set_profile_data] = useState(undefined)
     const [current_user_data, set_current_user_data] = useState(undefined)
@@ -22,7 +41,7 @@ const ProfilePage = () => {
     const [profile_button_class, set_profile_button_class] = useState("profile_button_selected")
     const [friends_button_class, set_friends_button_class] = useState("profile_button_not_selected")
     const [saved_posts_button_class, set_saved_posts_button_class] = useState("profile_button_not_selected")
-
+    const [profile_about_me, set_profile_about_me] = useState(undefined)
 
     function profile_button_state_update( button_type ){ 
         set_view_posts_state(false)
@@ -35,22 +54,22 @@ const ProfilePage = () => {
         set_profile_button_class("profile_button_not_selected")
 
         if (button_type === "profile") {
-            set_view_profile_state(false)
+            set_view_profile_state(true)
             set_profile_button_class("profile_button_selected")
         }
 
         if (button_type === "posts") {
-            set_view_posts_state(false)
+            set_view_posts_state(true)
             set_post_button_class("profile_button_selected")
         }
 
         if (button_type === "friends") {
-            set_view_friends_state(false)
+            set_view_friends_state(true)
             set_friends_button_class("profile_button_selected")
         }
 
         if (button_type === "saved_posts") {
-            set_view_saved_posts_state(false)
+            set_view_saved_posts_state(true)
             set_saved_posts_button_class("profile_button_selected")
         }
     }
@@ -66,10 +85,12 @@ const ProfilePage = () => {
         if (type === "Accept") {
             api.update_friend_request_notification( {"id": notification_id, "request_status": "accepted", "remove": "false", "sent_to": profile_data?._id, "sent_from": current_user_data?.data?._id} )
             api.add_friend({sent_to: profile_data?._id, sent_from: current_user_data?.data?._id})
+            api.createNotifcation({"type": "friend_request_accepted", "sent_from": current_user_data?.data?._id, "sent_to": profile_data?._id, "status": "unread", createdAt: new Date()})    
         }
 
         if (type === "Decline") {
             api.update_friend_request_notification( {"id": notification_id, "request_status": "declined", "remove": "false", "sent_to": profile_data?._id, "sent_from": current_user_data?.data?._id} )
+            api.createNotifcation({"type": "friend_request_declined", "sent_from": current_user_data?.data?._id, "sent_to": profile_data?._id, "status": "unread", createdAt: new Date()})    
         }
 
         if (type === "Cancel Friend Request") {
@@ -79,6 +100,7 @@ const ProfilePage = () => {
 
         if (type === "Remove Friend") {
             api.remove_friend({sent_to: profile_data?._id, sent_from: current_user_data?.data?._id})
+            api.createNotifcation({"type": "unfriended", "sent_from": current_user_data?.data?._id, "sent_to": profile_data?._id, "status": "unread", createdAt: new Date()})    
         }
 
         setTimeout(() => { press_button(button_pressed+1); }, 400)
@@ -121,6 +143,32 @@ const ProfilePage = () => {
     }
 
 
+    // post functions
+    const passedFunction = (data) => {
+        set_post_to_edit(data)
+        set_update_post(true)
+    };
+
+    const close_create_and_edit_post_menu = () => {
+        setTimeout(() => { set_update_post(false); }, "500")
+        set_create_edit_post_menu_status(false)
+    };  
+
+    const logout = () => {
+        dispatch({type: 'LOGOUT'})
+        setUser(null)
+        localStorage.clear();
+        sessionStorage.clear()
+        navigate('/')
+    }
+
+    function update_profile_about_me(e) {
+        //console.log(e)
+        set_profile_about_me(e)
+        api.updateUserAboutMe({id: profile_data?._id, message: e})
+    }
+
+
 
     useEffect(() => {  
         const fetchData = async () => {
@@ -128,17 +176,46 @@ const ProfilePage = () => {
             if (data !== undefined) {
                 document.title = data?.username+" Profile"
                 set_profile_data(data)
+                set_profile_about_me(data.about_me)
+                //setPosts(data.posts)
             }
+            const api_posts = await api.fetchUserPosts(data._id)
+            if (api_posts !== undefined) {
+                setPosts(api_posts)
+                //console.log(api_posts.data)
+            }
+
+            const api_bookmarks = await api.fetchUserBookMarkedPosts(data.bookmarked_posts)
+            if (api_bookmarks !== undefined) {
+                set_bookmarked_posts(api_bookmarks)
+                //if (api_bookmarks.data.length === 0) {
+                //    set_bookmarked_posts([])
+                //}
+                //console.log(api_bookmarks.data)
+            }
+
             const current_user = await api.fetchUser(user_id?.result?._id)
             if (current_user !== undefined) {
                 set_current_user_data(current_user)
             }
             check_friend_status(current_user, data)
+
+            const token = user?.token;
+            if (user === null) {
+                navigate('/')
+            }
+            if (token) {
+                const decodedToken = decode(token)
+
+                if(decodedToken.exp * 1000 < new Date().getTime()) logout();
+            }
         }
         fetchData()
             .catch(console.error);;
     }, [id, user_id?.result?._id, button_pressed] )
     
+
+
     return (
         <div className="ProfilePageParentContainer">
             <Header />
@@ -175,6 +252,165 @@ const ProfilePage = () => {
                     <button onClick={() => profile_button_state_update("saved_posts")}  className={saved_posts_button_class}> Saved Posts </button>
                 </div>
 
+            </div>
+
+            <div className="profile_bottom_container">
+                {(view_profile_state === true) && (
+                        <div className="profile_about_me_and_friends_container">
+
+                            <div className="about_me_parent_container">
+                                <div className="view_friends_header">
+                                    <h1>About Me</h1>
+                                </div> 
+                                {(profile_data?._id === current_user_data?.data?._id) && (
+                                    <textarea value={profile_about_me} placeholder="write something about yourself" onChange={(e) => update_profile_about_me(e.target.value)} />
+                                )}
+
+                                {(profile_data?._id !== current_user_data?.data?._id) && (
+                                    <h2> {profile_data.about_me} </h2>
+                                )}
+
+                            </div>  
+
+
+                            <div style={{"width": "100%", "height": "auto"}}>
+                            {(profile_data !== undefined) && (
+                                <div style={{"height": "150px", overflowY: "hidden"}} className="view_friends_parent_container">
+                                    <div className="view_friends_header">
+                                        <h1>Friends</h1>
+                                        {(profile_data.friends.length > 4) && ( 
+                                            <div onClick={() => profile_button_state_update("friends")} style={{"marginLeft": "auto", color: "rgb(70, 140, 238)", marginRight: "10px", marginTop: "8px", fontWeight: "bold", cursor: "pointer", fontSize: "12px"}}>
+                                                See All Friends
+                                            </div>
+                                        )}
+                                    </div> 
+                                    {[...profile_data.friends].reverse().map((id) => (
+                                        <FriendListItem friend_id={id} />
+                                    ))}
+
+                                </div>
+                            )}
+                        </div>  
+                          
+                    </div>    
+                )}
+
+                {(view_profile_state === true) && (
+                    <div className="profile_side_posts_container">
+                        {(updating_post === true) && (
+                            <div className="create_post_menu_parent">
+                                {(updating_post === true) && (
+                                    <div onClick={() => {set_update_post(false)}} className="check_for_click"></div>    
+                                )}
+                                <CreateOrEditPost CreateOrEditPostData={update_post} close_create_and_edit_post_menu={close_create_and_edit_post_menu} />
+                            </div>
+                        )}
+
+                        {(posts?.data !== undefined) && (
+                            <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
+                                {[...posts.data].reverse().map((post) => (
+                                    <Post post={post} func={passedFunction} />
+                                ))}
+                            </div>
+                        )}
+                        {(posts === undefined) && (
+                            <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
+                                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                                <h1>Loading..</h1>
+                            </div>
+                        )}
+
+                        {(posts?.length === 0) && (
+                            <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
+                                <h3>{profile_data?.username} hasn't posted anything yet </h3>
+                            </div>
+                        )}
+                    </div>    
+                )}
+
+
+                {(view_posts_state === true) && (
+                    <div className="profile_view_posts_parent_container">
+                        {(updating_post === true) && (
+                            <div className="create_post_menu_parent">
+                                {(updating_post === true) && (
+                                    <div onClick={() => {set_update_post(false)}} className="check_for_click"></div>    
+                                )}
+                                <CreateOrEditPost CreateOrEditPostData={update_post} close_create_and_edit_post_menu={close_create_and_edit_post_menu} />
+                            </div>
+                        )}
+
+                        {(posts?.data !== undefined) && (
+                            <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
+                                {[...posts.data].reverse().map((post) => (
+                                    <Post post={post} func={passedFunction} />
+                                ))}
+                            </div>
+                        )}
+                        {(posts === undefined) && (
+                            <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
+                                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                                <h1>Loading..</h1>
+                            </div>
+                        )}
+
+                        {(posts?.length === 0) && (
+                            <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
+                                <h3>{profile_data?.username} hasn't posted anything yet </h3>
+                            </div>
+                        )}
+                    </div>    
+                )}
+
+
+                {(view_friends_state === true) && (
+                    <div style={{"width": "100%", "height": "auto"}}>
+                        {(profile_data !== undefined) && (
+                            <div style={{"height": "auto"}} className="view_friends_parent_container">
+                                <div className="view_friends_header">
+                                    <h1>Friends</h1>
+                                </div> 
+                                {[...profile_data.friends].reverse().map((id) => (
+                                    <FriendListItem friend_id={id} />
+                                ))}
+                            </div>
+                        )}
+                    </div>    
+                )}
+
+                {(view_saved_posts_state === true) && (
+                    <div className="profile_view_posts_parent_container">
+                    {(updating_post === true) && (
+                        <div className="create_post_menu_parent">
+                            {(updating_post === true) && (
+                                <div onClick={() => {set_update_post(false)}} className="check_for_click"></div>    
+                            )}
+                            <CreateOrEditPost CreateOrEditPostData={update_post} close_create_and_edit_post_menu={close_create_and_edit_post_menu} />
+                        </div>
+                    )}
+
+                    {(bookmarked_posts?.data !== undefined) && (
+                        <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
+                            {[...bookmarked_posts.data].reverse().map((post) => (
+                                <Post post={post} func={passedFunction} />
+                            ))}
+                        </div>
+                    )}
+                    {(bookmarked_posts === undefined) && (
+                        <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
+                            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                            <h1>Loading..</h1>
+                        </div>
+                    )}
+
+                    {(bookmarked_posts?.length === 0) && (
+                        <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
+                            <h3>{profile_data?.username} hasn't posted anything yet </h3>
+                        </div>
+                    )}
+                </div>     
+                )}
+                
             </div>
 
         </div>
