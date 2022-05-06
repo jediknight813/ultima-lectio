@@ -27,10 +27,10 @@ const SearchPosts = () => {
 
     useEffect(() => {   
         const fetchData = async () => {
-            console.log(id)
+            //console.log(id)
             const { data } = await api.fetchPostsWithSearch(id)
             if (data !== undefined) {
-                console.log(data)
+                //console.log(data)
                 setPosts(data)
                 if (data.length === 0) {
                     SetSearchStatus(false)

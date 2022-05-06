@@ -44,6 +44,7 @@ const ProfilePage = () => {
     const [profile_about_me, set_profile_about_me] = useState(undefined)
 
     function profile_button_state_update( button_type ){ 
+        check_token() 
         set_view_posts_state(false)
         set_view_friends_state(false)
         set_view_saved_posts_state(false)
@@ -108,8 +109,6 @@ const ProfilePage = () => {
     
 
     function check_friend_status(current_user, profile_user) {
-        //console.log(current_user?.data, profile_user)
-
         let current_user_has_sent_friend_request = false
         profile_user.notifications.forEach(c => {
             if (c.sent_from === current_user.data._id && c.type === "friend_request") {
@@ -142,7 +141,6 @@ const ProfilePage = () => {
 
     }
 
-
     // post functions
     const passedFunction = (data) => {
         set_post_to_edit(data)
@@ -163,11 +161,9 @@ const ProfilePage = () => {
     }
 
     function update_profile_about_me(e) {
-        //console.log(e)
         set_profile_about_me(e)
         api.updateUserAboutMe({id: profile_data?._id, message: e})
     }
-
 
 
     useEffect(() => {  
@@ -177,30 +173,33 @@ const ProfilePage = () => {
                 document.title = data?.username+" Profile"
                 set_profile_data(data)
                 set_profile_about_me(data.about_me)
-                //setPosts(data.posts)
-            }
-            const api_posts = await api.fetchUserPosts(data._id)
-            if (api_posts !== undefined) {
-                setPosts(api_posts)
-                //console.log(api_posts.data)
-            }
-
-            const api_bookmarks = await api.fetchUserBookMarkedPosts(data.bookmarked_posts)
-            if (api_bookmarks !== undefined) {
-                set_bookmarked_posts(api_bookmarks)
-                //if (api_bookmarks.data.length === 0) {
-                //    set_bookmarked_posts([])
-                //}
-                //console.log(api_bookmarks.data)
             }
 
             const current_user = await api.fetchUser(user_id?.result?._id)
             if (current_user !== undefined) {
                 set_current_user_data(current_user)
             }
+
             check_friend_status(current_user, data)
 
-            const token = user?.token;
+            const api_posts = await api.fetchUserPosts(data._id).catch((e) => {setPosts([])})
+            if (api_posts !== undefined) {
+                setPosts(api_posts)
+            }
+
+            const api_bookmarks = await api.fetchUserBookMarkedPosts(data.bookmarked_posts).catch((e) => {set_bookmarked_posts([])})
+            if (api_bookmarks !== undefined) {
+                set_bookmarked_posts(api_bookmarks)
+            }
+
+        }
+        fetchData()
+            .catch(console.error);;
+    }, [id, user_id?.result?._id, button_pressed] )
+    
+    
+    function check_token() {
+        const token = user?.token;
             if (user === null) {
                 navigate('/')
             }
@@ -209,11 +208,7 @@ const ProfilePage = () => {
 
                 if(decodedToken.exp * 1000 < new Date().getTime()) logout();
             }
-        }
-        fetchData()
-            .catch(console.error);;
-    }, [id, user_id?.result?._id, button_pressed] )
-    
+    }
 
 
     return (
@@ -309,7 +304,7 @@ const ProfilePage = () => {
                         {(posts?.data !== undefined) && (
                             <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
                                 {[...posts.data].reverse().map((post) => (
-                                    <Post post={post} func={passedFunction} />
+                                    <Post key={post.createdAt} post={post} func={passedFunction} />
                                 ))}
                             </div>
                         )}
@@ -343,7 +338,7 @@ const ProfilePage = () => {
                         {(posts?.data !== undefined) && (
                             <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
                                 {[...posts.data].reverse().map((post) => (
-                                    <Post post={post} func={passedFunction} />
+                                    <Post key={post.createdAt} post={post} func={passedFunction} />
                                 ))}
                             </div>
                         )}
@@ -366,7 +361,7 @@ const ProfilePage = () => {
                 {(view_friends_state === true) && (
                     <div style={{"width": "100%", "height": "auto"}}>
                         {(profile_data !== undefined) && (
-                            <div style={{"height": "auto"}} className="view_friends_parent_container">
+                            <div style={{"height": "auto", minHeight: "200px"}} className="view_friends_parent_container">
                                 <div className="view_friends_header">
                                     <h1>Friends</h1>
                                 </div> 
@@ -392,7 +387,7 @@ const ProfilePage = () => {
                     {(bookmarked_posts?.data !== undefined) && (
                         <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
                             {[...bookmarked_posts.data].reverse().map((post) => (
-                                <Post post={post} func={passedFunction} />
+                                <Post key={post.createdAt} post={post} func={passedFunction} />
                             ))}
                         </div>
                     )}
@@ -405,7 +400,7 @@ const ProfilePage = () => {
 
                     {(bookmarked_posts?.length === 0) && (
                         <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
-                            <h3>{profile_data?.username} hasn't posted anything yet </h3>
+                            <h3>{profile_data?.username} hasn't saved anything yet </h3>
                         </div>
                     )}
                 </div>     
