@@ -10,6 +10,7 @@ import decode from 'jwt-decode'
 import {useNavigate, useLocation} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import FriendListItem from "./Friend_List_Item";
+import Resizer from "react-image-file-resizer";
 
 
 const ProfilePage = () => {
@@ -25,6 +26,10 @@ const ProfilePage = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+
+    const [show_about_me_save_button, set_show_about_me_save_button] = useState(false)
+
 
     const { id } = useParams()
     const [profile_data, set_profile_data] = useState(undefined)
@@ -162,7 +167,12 @@ const ProfilePage = () => {
 
     function update_profile_about_me(e) {
         set_profile_about_me(e)
-        api.updateUserAboutMe({id: profile_data?._id, message: e})
+        set_show_about_me_save_button(true)
+    }
+
+    function update_profile() {
+        api.updateUserAboutMe({id: profile_data?._id, message: profile_about_me})
+        set_show_about_me_save_button(false)
     }
 
 
@@ -183,8 +193,12 @@ const ProfilePage = () => {
             check_friend_status(current_user, data)
 
             const api_posts = await api.fetchUserPosts(data._id).catch((e) => {setPosts([])})
+            //console.log(posts?.length)
             if (api_posts !== undefined) {
                 setPosts(api_posts)
+            }
+            if (api_posts === undefined) {
+                setPosts([])
             }
 
             const api_bookmarks = await api.fetchUserBookMarkedPosts(data.bookmarked_posts).catch((e) => {set_bookmarked_posts([])})
@@ -210,6 +224,34 @@ const ProfilePage = () => {
             }
     }
 
+    const resizeFile = (file) =>
+    new Promise((resolve) => {
+        Resizer.imageFileResizer(
+            file,
+            800,
+            800,
+            "PNG",
+            100,
+            0,
+            (uri) => {
+            resolve(uri);
+            },
+            "base64"
+        );
+    });
+
+    const LowerImageSize = async (event) => {
+        try {
+          const file = event.target.files[0];
+          const image = await resizeFile(file);
+          //console.log(image);
+          api.updateUserProfileImage({id: profile_data?._id, image: image})
+          profile_data['profile_image'] = image
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
 
     return (
         <div className="ProfilePageParentContainer">
@@ -221,6 +263,14 @@ const ProfilePage = () => {
                     ):(
                         <img referrerpolicy="no-referrer" alt="profile_img" src={profile_data?.profile_image}/>
                     )}
+
+                    {(profile_data?._id === current_user_data?.data?._id) && (
+                        <div onClick={() => document.getElementById("file_for_image").click()} className="profile_image_change"> 
+                            <input hidden accept="image/png, image/gif, image/jpeg" id="file_for_image" type="file" multiple={false} onChange={(e) => LowerImageSize(e)} /> 
+                            <h1> Change Image </h1>
+                        </div>
+                    )}
+
                     <h1>{profile_data?.username}</h1>
 
                     {(current_user_data?.data?._id !== profile_data?._id && follow_state !== undefined) && (
@@ -261,8 +311,12 @@ const ProfilePage = () => {
                                     <textarea value={profile_about_me} placeholder="write something about yourself" onChange={(e) => update_profile_about_me(e.target.value)} />
                                 )}
 
-                                {(profile_data?._id !== current_user_data?.data?._id) && (
+                                {(profile_data?._id !== current_user_data?.data?._id && profile_data?.about_me?.split("").length >= 1) && (
                                     <h2> {profile_data.about_me} </h2>
+                                )}
+
+                                {(show_about_me_save_button === true) && (
+                                    <button className="about_me_save_button" onClick={() => update_profile()}> save </button>
                                 )}
 
                             </div>  
@@ -315,7 +369,7 @@ const ProfilePage = () => {
                             </div>
                         )}
 
-                        {(posts?.length === 0) && (
+                        {(posts?.data?.length <= 1) && (
                             <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
                                 <h3>{profile_data?.username} hasn't posted anything yet </h3>
                             </div>
@@ -349,7 +403,7 @@ const ProfilePage = () => {
                             </div>
                         )}
 
-                        {(posts?.length === 0) && (
+                        {(posts?.data?.length  === 0 ) && (
                             <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
                                 <h3>{profile_data?.username} hasn't posted anything yet </h3>
                             </div>

@@ -46,6 +46,7 @@ export const remove_friend = (friend) => API.post("notifications/remove_friend",
 export const add_friend = (friend) => API.post("notifications/add_friend", friend);
 
 export const updateUserAboutMe = (id) => API.post(`${"users/updateUserAboutMe"}/`, id);
+export const updateUserProfileImage = (id) => API.post(`${"users/updateUserProfileImage"}/`, id);
 
 
 export const fetchUser = (id) => API.post(`${"users/getUser"}/${id}`);

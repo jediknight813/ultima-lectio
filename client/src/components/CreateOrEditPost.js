@@ -5,20 +5,44 @@ import { createPost, updatePost } from "../actions/posts";
 import FileBase from 'react-file-base64';
 import Resizer from "react-image-file-resizer";
 import Post from "./Post";
+import * as api from '../api/index.js';
+import decode from 'jwt-decode'
+import {useNavigate, useLocation} from 'react-router-dom';
 
 
 const CreateOrEditPost = (data) => {
     var activate_data = data["CreateOrEditPostData"]
     let random_string = Math.random().toString(30).substring(3,29)
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
-
+    const [current_user, set_current_user] = useState(undefined)
     const [UserPost, SetUserPost] = useState({_id: random_string, message: "", username: user?.result?.username, creator: user?.result?._id , selectedFile: "", tags: ""})
-    
+    const navigate = useNavigate()
+
 
     const [create_post_menu, set_create_post_menu_status] = useState(false)
     const dispatch = useDispatch();  
     //console.log(activate_data)
     const [image, setImage] = useState()
+
+    const logout = () => {
+        dispatch({type: 'LOGOUT'})
+        setUser(null)
+        localStorage.clear();
+        sessionStorage.clear()
+        navigate('/')
+    }
+    
+    useEffect(() => {   
+        const fetchData = async () => {
+            const { data } = await api.fetchUser(user?.result?._id)
+            if (data !== undefined) {
+                set_current_user(data);
+            }
+        }
+        fetchData()
+            .catch(console.error);;
+        }, [])
+
 
     const CreateNewPost = async (e) => {
         if (activate_data.post === null) {
@@ -55,6 +79,16 @@ const CreateOrEditPost = (data) => {
         if (activate_data?.post !== null) {
             SetUserPost(activate_data?.post)
             set_create_post_menu_status(true)
+        }
+
+        const token = user?.token;
+        if (user === null) {
+            navigate('/')
+        }
+        if (token) {
+            const decodedToken = decode(token)
+
+            if(decodedToken.exp * 1000 < new Date().getTime()) logout();
         }
 
         //if (data.CreateOrEditPostData?.post?.likes !== undefined) {
@@ -117,7 +151,12 @@ const resizeFile = (file) =>
                 <h1>{title_text} Post</h1>
                 <div className="post_form_line"></div>
                 <div className="create_post_username_and_image">
-                    <img alt="profile_image" src={user?.result?.profile_image} />
+                    {(current_user !== undefined) && (
+                        <img alt="profile_image" src={current_user?.profile_image} />
+                    )}
+                    {(current_user === undefined) && (
+                        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                    )}
                     <h2> {user?.result?.username} </h2>
                 </div>
                 <textarea className="form_message_text" required minLength={3} type="text" placeholder={"What's on your mind "+ user?.result?.username+"?"} value={UserPost.message} onChange={(e) => SetUserPost({ ...UserPost, message: e.target.value })} />

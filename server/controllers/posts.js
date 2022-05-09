@@ -182,7 +182,11 @@ export const getUserBookMarkedPosts = async (req, res) => {
     const { id } = req.params
     //console.log(id)
     if (!await Post.find( { _id: id } ));
-    const posts = await Post.find({ _id: id })
-    //console.log(posts)
-    res.json(posts);
+    try {        
+        const posts = await Post.find({ _id: id })
+        res.json(posts);
+
+    } catch (error) {
+        res.status(404).json({message: "no posts with matching tags found"})
+    }
 }

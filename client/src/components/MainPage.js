@@ -7,7 +7,7 @@ import '../styles/MainPageStyles.css'
 import CreateOrEditPost from './CreateOrEditPost';
 import Post from './Post';
 import { getPosts } from '../actions/posts';
-
+import * as api from '../api/index.js'
 
 
 const MainPage = () => {
@@ -17,6 +17,7 @@ const MainPage = () => {
     const dispatch = useDispatch()
     const location = useLocation()
     const posts = useSelector((state) => state.posts);
+    const [current_user, set_current_user] = useState(undefined)
     
     var CreateOrEditPostData = {type: "create", post: null}
     const [create_edit_post_menu, set_create_edit_post_menu_status] = useState(false)
@@ -39,6 +40,8 @@ const MainPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             dispatch(getPosts())
+            const { data } = await api.fetchUser(user?.result?._id)
+            set_current_user(data);
         }
         fetchData()
             .catch(console.error);
@@ -76,7 +79,12 @@ const MainPage = () => {
             <Header />
             <div className='center_posts_parent'>
                 <div className="center_post_menu_parent">
-                    <img referrerpolicy="no-referrer" alt="profile_image" className="create_post_profile_image" src={user?.result?.profile_image}/>
+                    {(current_user !== undefined) && (
+                        <img referrerpolicy="no-referrer" alt="profile_image" className="create_post_profile_image" src={current_user?.profile_image}/>
+                    )}
+                    {(current_user === undefined) && (
+                        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                    )}
                     <div className="open_post_menu" onClick={() => set_create_edit_post_menu_status(true)}> <h1> {"What's on your mind "+ user?.result?.username+"?"}</h1> </div>
                 </div>
 

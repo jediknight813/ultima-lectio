@@ -21,6 +21,7 @@
 .post_username_image_date_and_edit_containter img{
     border-radius: 50%;
     height: 60px;
+    width: 60px;
     border: 2px solid white;
 }
 
@@ -35,6 +36,7 @@
 .post_username_image_date_and_edit_containter h1{
     font-size: 15px;
     margin-bottom: 0px;
+    
 }
 
 .post_username_image_date_and_edit_containter h2{
@@ -179,6 +181,7 @@
 
 .comment_container img {
     height: 45px;
+    width: 45px;
     border-radius: 50%;
     border: 2px solid white;
 }
@@ -197,6 +200,10 @@
     margin-top: 13px;
     margin-left: 8px;
     font-weight: bold;
+    width: 18ch;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+    white-space: nowrap;
     font-family: "Ubuntu",sans-serif;
 }
 
@@ -220,8 +227,10 @@
 .make_a_comment_container img{
     border-radius: 50%;
     height: 40px;
+    width: 45px;
     border: 2px solid white;
 }
+
 
 .make_a_comment_container input{
     width: 80%;

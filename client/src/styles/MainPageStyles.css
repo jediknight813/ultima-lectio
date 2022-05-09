@@ -7,6 +7,14 @@
     justify-content: center;
 }
 
+.open_post_menu h1 {
+    width: 35ch;
+    white-space: nowrap;
+    margin-bottom: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
 .center_posts_parent {
     width: 700px;
     margin-top: 90px;

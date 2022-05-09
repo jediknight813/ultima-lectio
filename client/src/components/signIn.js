@@ -101,7 +101,7 @@ const SignIn = () => {
     
                     <h2> This is a recreation of Facebook, created as an assignment for The Odin Project. </h2>
                     <a href="https://github.com/jediknight813">
-                        <i className="fa fa-github" style={{"fontSize": "36px", color: "black"}}></i>
+                        <i className="fa fa-github" style={{"fontSize": "36px", color: "white"}}></i>
                     </a>
     
                 </div>
@@ -129,7 +129,7 @@ const SignIn = () => {
     
                     <h2> This is a recreation of Facebook, created as an assignment for The Odin Project. </h2>
                     <a href="https://github.com/jediknight813">
-                        <i className="fa fa-github" style={{"fontSize": "36px", color: "black"}}></i>
+                        <i className="fa fa-github" style={{"fontSize": "36px", color: "white"}}></i>
                     </a>
     
                 </div>

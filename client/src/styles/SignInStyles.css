@@ -3,6 +3,7 @@
     margin-left: 0px;
 }
 
+
 .signInContainerParent {
     width: 100%;
     position: absolute;
@@ -12,14 +13,14 @@
     align-items: center;
     align-content: center;
     justify-content: center;
-    background-color: rgb(229 229 229);
+    background-color: #302f42;
 }
 
 
 .signInContainer {
     width: 500px;
     height: 600px;
-    background-color: white;
+    background-color: #222132;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,6 +41,7 @@
     font-weight: lighter;
     font-weight: 200;
     width: 90%;
+    color: white;
     text-align: center;
     line-height: 1.5;
     tab-size: 4;
@@ -56,11 +58,14 @@
 }
 
 .login_container input{
-    width: 90%;
+    width: 85%;
     height: 40px;
-    border: 2px solid rgb(240, 236, 236);
+    padding-left: 3%;
+    color: white;
     border-radius: 8px;
     outline: none;
+    border: none;
+    background-color: #100f18;
 
 }
 
@@ -122,6 +127,8 @@
 
 .i {
     width: 20px;
+    background-color: white;
+    color: white;
     height: 40px;
 }
 

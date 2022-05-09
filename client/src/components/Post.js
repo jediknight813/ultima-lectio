@@ -129,7 +129,7 @@ const Post = ( post ) => {
                 )}
 
                 <div>
-                    <h1 style={{"cursor": "pointer"}} onClick={() => navigate(`/profile/${post?.post?.creator}`)}>{post_user?.username}</h1>
+                    <h1 style={{"cursor": "pointer", width: "17ch", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden"}} onClick={() => navigate(`/profile/${post?.post?.creator}`)}>{post_user?.username}</h1>
                     <h2>{moment(post.post.createdAt).fromNow()}</h2>
                 </div>
                 
@@ -138,7 +138,7 @@ const Post = ( post ) => {
                 )}
             </div>
                 {(post.post.tags?.length >= 1 && post.post?.tags[0].split("").length > 1) && (
-                    <div style={{"display": "flex", width: "90%", gap: "10px", fontWeight: "bold", fontSize:" 15px"}}>
+                    <div style={{"display": "flex", width: "90%", gap: "10px", fontWeight: "bold", fontSize:" 15px", overflow: "hidden"}}>
                         {post?.post?.tags.map((post) => (
                         <div style={{"cursor": "pointer"}} onClick={() => navigate(`/tags/${post.trim()}`)}>{"#"+post.trim()} </div>
                         ))}
@@ -238,10 +238,10 @@ const Post = ( post ) => {
 
 
             <form onSubmit={send_comment} className="make_a_comment_container">
-                {post_user?.profile_image === undefined ? (
+                {bookmarked_posts?.profile_image === undefined ? (
                     <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                 ):(
-                    <img alt="profile_img" src={current_user?.result?.profile_image}/>
+                    <img alt="profile_img" src={bookmarked_posts?.profile_image}/>
                 )}
                 <input required minLength={3} type="text" placeholder={"Say something.."} value={UserComment.comment} onChange={(e) => SetUserComment({ ...UserComment, comment: e.target.value, createdAt: new Date(), user_id: current_user.result._id  })} />
                 <button><i class="fa fa-send"></i></button>

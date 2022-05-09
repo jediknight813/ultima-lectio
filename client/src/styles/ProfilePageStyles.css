@@ -48,6 +48,7 @@
 .profile_image_username_and_date_container img{
     height: 160px;
     border-radius: 50%;
+    width: 160px;
     border: 2px solid white;
 }
 
@@ -115,6 +116,21 @@
     font-weight: bold;
     color: white;
     padding: 8px;
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: #6d5bf3;
+    margin-left: 10px;
+}
+
+.about_me_save_button {
+    border: none;
+    outline: none;
+    font-weight: bold;
+    color: white;
+    padding: 6px;
     border-radius: 8px;
     margin-top: 5px;
     margin-bottom: 8px;
@@ -253,6 +269,33 @@
 }
 
 
+.profile_image_change {
+    height: 160px;
+    opacity: 0%;
+    width: 160px;
+    position: absolute;
+    border-radius: 50%;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile_image_change h1{
+    font-size: 15px;
+
+}
+
+
+.profile_image_change:hover {
+    visibility: visible;
+    cursor: pointer;
+    opacity: 90%;
+    background-color: #1b1925;
+    border: 3px solid rgb(0, 0, 0);
+}
+
+
 @media (max-width: 1000px) { 
 
     .profile_bottom_container {
@@ -277,6 +320,12 @@
 
 
 @media (max-width: 600px) { 
+    .profile_top_button_container {
+        flex-wrap: wrap;
+        height: auto;
+        gap: 10px;
+        width: 100%;
+    }
     .profile_bottom_container {
         width: 100%;
     }

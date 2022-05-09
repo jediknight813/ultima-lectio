@@ -18,7 +18,7 @@ const Header = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation()
-    const [current_user, set_current_user] = useState(null)
+    const [current_user, set_current_user] = useState(undefined)
     const [searchValue, setSearchValue] = useState()
 
 
@@ -127,7 +127,13 @@ const Header = () => {
                 )}
 
                 <h1 onClick={() => navigate(`/profile/${user?.result?._id}`)} className="username_text"> {user?.result?.username} </h1>
-                <img referrerpolicy="no-referrer" onClick={() => hide_or_show_settings_menu()} className="profile_image" alt="profile img" src={user?.result?.profile_image}/>
+                {(current_user !== undefined) && (
+                     <img referrerpolicy="no-referrer" onClick={() => hide_or_show_settings_menu()} className="profile_image" alt="profile img" src={current_user?.profile_image}/>
+                )}
+                {(current_user === undefined) && (
+                     <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                )}
+               
             </div>
 
             {(show_settings_drop_down === true) && (

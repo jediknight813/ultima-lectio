@@ -19,6 +19,7 @@
 .profile_image {
     border-radius: 50%;
     height: 45px;
+    width: 45px;
     border: 2px solid white;
     cursor: pointer;
 }
@@ -28,6 +29,8 @@
     color: white;
     cursor: pointer;
     font-size: 11px;
+    width: 12ch;
+    white-space: nowrap;
     margin-bottom: 0px;
     overflow: hidden;
     text-overflow: ellipsis; 

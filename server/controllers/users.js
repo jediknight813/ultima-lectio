@@ -138,13 +138,21 @@ export const updateUserAboutMe = async (req, res) => {
     const { id, message } = req.body;
     //console.log(req.body)
     //console.log(id, message)
-
     if (!await User.findById(id));
-
     const user = await User.findByIdAndUpdate(id,  { about_me: message }, { new: true });
     //.log(user)
     //res.json(user);
 }
+
+export const updateUserProfileImage = async (req, res) => {
+    const { id, image } = req.body;
+    //console.log(id, image)
+    if (!await User.findById(id));
+    const user = await User.findByIdAndUpdate(id,  { profile_image: image }, { new: true });
+    //res.json(user);
+}
+
+
 
 export const bookmarkPost = async (req, res) => {
     const { id } = req.params;

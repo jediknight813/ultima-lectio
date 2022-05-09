@@ -11,6 +11,7 @@
     border: 2px solid white;
     border-radius: 50%;
     height: 60px;
+    width: 60px;
 }
 
 .friend_list_item_parent_container h1{
