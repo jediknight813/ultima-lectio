@@ -142,7 +142,7 @@ const Post = ( post ) => {
                 {(updatedPost?.tags?.length >= 1 && updatedPost?.tags[0].split("").length > 1) && (
                     <div style={{"display": "flex", width: "90%", gap: "10px", fontWeight: "bold", fontSize:" 15px", overflow: "hidden"}}>
                         {updatedPost?.tags.map((post) => (
-                        <div style={{"cursor": "pointer"}} onClick={() => navigate(`/tags/${post.trim()}`)}>{"#"+post.trim()} </div>
+                        <div key={post} style={{"cursor": "pointer"}} onClick={() => navigate(`/tags/${post.trim()}`)}>{"#"+post.trim()} </div>
                         ))}
                     </div>  
                 )}
@@ -209,7 +209,7 @@ const Post = ( post ) => {
             {updatedPost?.comments?.length >= 1 ? (
                 <div className={comment_container_parent_class}>
                     {[...updatedPost?.comments].reverse().map((comment) => (
-                        <Comment comment={comment}/>
+                        <Comment key={comment?.createdAt} comment={comment}/>
                     ))}
                 </div>
             ):(

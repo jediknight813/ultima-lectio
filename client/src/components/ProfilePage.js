@@ -182,7 +182,6 @@ const ProfilePage = () => {
         const api_bookmarks = await api.fetchUserBookMarkedPosts(bookmarked_posts)
         if (api_bookmarks !== undefined) {
             set_bookmarked_posts(api_bookmarks)
-            console.log(api_bookmarks)
         }
         if (api_bookmarks === undefined) {
             set_bookmarked_posts([])
@@ -343,7 +342,7 @@ const ProfilePage = () => {
                                         )}
                                     </div> 
                                     {[...profile_data.friends].reverse().map((id) => (
-                                        <FriendListItem friend_id={id} />
+                                        <FriendListItem key={id} friend_id={id} />
                                     ))}
 
                                 </div>
@@ -429,7 +428,7 @@ const ProfilePage = () => {
                                     <h1>Friends</h1>
                                 </div> 
                                 {[...profile_data.friends].reverse().map((id) => (
-                                    <FriendListItem friend_id={id} />
+                                    <FriendListItem key={id} friend_id={id} />
                                 ))}
                             </div>
                         )}
