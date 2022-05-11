@@ -1,7 +1,7 @@
 # ultima-lectio
 a facebook clone make using mern stack for the odin project.
 
-a link to the website: https://luxury-lebkuchen-233be4.netlify.app/profile/113315294171159017171
+a link to the website: https://luxury-lebkuchen-233be4.netlify.app/
 
 features
 
