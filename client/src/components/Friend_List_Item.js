@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 
 const FriendListItem = ({ friend_id }) => {
     const [friend_data, set_friend_data] = useState(undefined)
-    //console.log(friend_id)
     const navigate = useNavigate()
     
     useEffect(() => {   

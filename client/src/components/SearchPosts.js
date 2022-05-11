@@ -19,18 +19,10 @@ const SearchPosts = () => {
     const [searchStatus, SetSearchStatus] = useState(true)
 
 
-    //const posts = useSelector((state) => state.posts);
-    //console.log(id)
-    //dispatch(getPostsWithTag(post.trim())
-
-    //console.log(posts)
-
     useEffect(() => {   
         const fetchData = async () => {
-            //console.log(id)
             const { data } = await api.fetchPostsWithSearch(id)
             if (data !== undefined) {
-                //console.log(data)
                 setPosts(data)
                 if (data.length === 0) {
                     SetSearchStatus(false)
@@ -42,17 +34,13 @@ const SearchPosts = () => {
             .catch(console.error);;
     }, [id, updating_post, create_edit_post_menu])
 
-    //setTimeout(() => { check_if_search_has_results() }, "5000")
-
     function check_if_search_has_results() {
         if (posts?.length < 1) {
-            //console.log("here")
             SetSearchStatus(false)
         }
     }
  
     const passedFunction = (data) => {
-        //console.log(data)
         set_post_to_edit(data)
         set_update_post(true)
     };

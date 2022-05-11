@@ -251,6 +251,7 @@
     color: white;
     padding: 10px;
     width: 80%;
+    min-height: 57%;
     max-height: 57%;
     background-color: #1b1925;
     font-size: 15px;

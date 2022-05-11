@@ -26,7 +26,6 @@ const Header = () => {
         
         const fetchData = async () => {
             const { data } = await api.fetchUser(user?.result?._id)
-            //console.log(data)
             set_current_user(data);
             check_notification_status(data)
         }
@@ -68,7 +67,6 @@ const Header = () => {
     }
 
     function search() {
-        //console.log("here")
         navigate(`/search/${searchValue.trim()}`)
     }
 
@@ -167,7 +165,3 @@ const Header = () => {
 }
 
 export default Header
-
-//  <button><i class="fa fa-plus"></i>create post</button>
-//  <i onClick={() => navigate("/Notifications")} class="fa fa-commenting" ></i>
-//  <button onClick={() => navigate("/Notifications")}><i class="fa fa-commenting"></i>comments</button>

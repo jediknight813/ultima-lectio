@@ -11,6 +11,7 @@ import {useNavigate, useLocation} from 'react-router-dom';
 
 
 const Post = ( post ) => {
+    const [updatedPost, setUpdatedPost] = useState(undefined)
     const [post_user, set_post_user] = useState(null)
     const [current_user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
     const navigate = useNavigate()
@@ -19,7 +20,7 @@ const Post = ( post ) => {
     const [ShowMoreComments, setShowMoreCommentsState] = useState(false)
     const [comment_container_parent_class, set_comment_container_parent_class] = useState("comment_container_parent")
     const [bookmarked_posts, set_bookmarked_posts] = useState({bookmarked_posts: []})
-    const [render, rerender] = useState(false);
+    const [render, rerender] = useState(1);
 
     function show_or_close_comments_menu() {
         if (ShowMoreComments === false) {
@@ -37,6 +38,10 @@ const Post = ( post ) => {
     const fetchData = async () => {
         const { data } = await api.fetchUser(post?.post?.creator)
         const newdata = await api.fetchUser(current_user?.result?._id) 
+        const postData = await api.fetchPostWithId(post?.post?._id) 
+        if (postData !== undefined) {
+            setUpdatedPost(postData.data)
+        }
         if (newdata !== undefined) {
             set_bookmarked_posts(newdata.data)
         }
@@ -56,14 +61,19 @@ const Post = ( post ) => {
             dispatch(likePost(post.post._id))
             send_like_notification()
         }
-        
+        setTimeout(() => { update_current_post(); }, 1000)
     }
 
     const update_current_user = async () => {
         const newdata = await api.fetchUser(current_user?.result?._id)
         if (newdata.data !== undefined) {
             set_bookmarked_posts(newdata.data)
-            //console.log(bookmarked_posts)
+        }
+    }
+    const update_current_post = async () => {
+        const postData = await api.fetchPostWithId(post?.post?._id) 
+        if (postData !== undefined) {
+            setUpdatedPost(postData.data)
         }
     }
 
@@ -80,12 +90,8 @@ const Post = ( post ) => {
         }
     }
 
-    //console.log("here")
-    //console.log(bookmarked_posts)
-
 
     function bookmark_or_unbookmark_post() {
-        //console.log(bookmarked_posts)
         dispatch(BookMarkPost(post.post._id))
         send_bookmark_notification()
         setTimeout(() => { update_current_user(); }, 1000)
@@ -94,10 +100,10 @@ const Post = ( post ) => {
 
     const send_comment = async (e) => {
         e.preventDefault();
-        //console.log(UserComment)
         dispatch(comment_on_post(post.post._id, UserComment))
         send_comment_notification()
         SetUserComment({createdAt: "", comment: "", user_id: ""})
+        setTimeout(() => { update_current_post(); }, 1000)
     };
 
 
@@ -109,15 +115,11 @@ const Post = ( post ) => {
 
 
     var is_current_user_post = false
-    //var editing_post = true
-
    if (current_user?.result?._id === post_user?._id) {
         is_current_user_post = true
    }
 
-    //console.log(post_user?.profile_image)
-    //console.log(bookmarked_posts.bookmarked_posts.includes(post.post._id), post.post._id, bookmarked_posts.bookmarked_posts)
-    
+
     return (
         <div className="post_parent_container">
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
@@ -129,17 +131,17 @@ const Post = ( post ) => {
                 )}
 
                 <div>
-                    <h1 style={{"cursor": "pointer", width: "17ch", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden"}} onClick={() => navigate(`/profile/${post?.post?.creator}`)}>{post_user?.username}</h1>
-                    <h2>{moment(post.post.createdAt).fromNow()}</h2>
+                    <h1 style={{"cursor": "pointer", width: "19ch", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden"}} onClick={() => navigate(`/profile/${post?.post?.creator}`)}>{post_user?.username}</h1>
+                    <h2>{moment(updatedPost?.createdAt).fromNow()}</h2>
                 </div>
                 
                 {(is_current_user_post === true) && (
                     <button style={{"marginLeft": "auto", color: "white", backgroundColor: "transparent", border:"none", fontSize: "46px", cursor: "pointer"}} onClick={() => post.func(post?.post)}> <i class="material-icons">more_horiz</i> </button>
                 )}
             </div>
-                {(post.post.tags?.length >= 1 && post.post?.tags[0].split("").length > 1) && (
+                {(updatedPost?.tags?.length >= 1 && updatedPost?.tags[0].split("").length > 1) && (
                     <div style={{"display": "flex", width: "90%", gap: "10px", fontWeight: "bold", fontSize:" 15px", overflow: "hidden"}}>
-                        {post?.post?.tags.map((post) => (
+                        {updatedPost?.tags.map((post) => (
                         <div style={{"cursor": "pointer"}} onClick={() => navigate(`/tags/${post.trim()}`)}>{"#"+post.trim()} </div>
                         ))}
                     </div>  
@@ -150,7 +152,7 @@ const Post = ( post ) => {
             </div>
                 {post.post.message.split("")?.length >= 1 ? (
                     <div className="post_message_container">
-                        {post?.post?.message}
+                        {post.post?.message}
                     </div>
                 ):(
                     <div>
@@ -175,15 +177,15 @@ const Post = ( post ) => {
             <div style={{width: "90%", "height": "1px", backgroundColor: "white", marginBottom: "-8px"}}> </div>
             
             <div style={{"width": "90%", "display": "flex"}}>
-                {post?.post?.likes?.includes(current_user?.result?._id) === false ? (
+                {updatedPost?.likes?.includes(current_user?.result?._id) === false ? (
                     <div className="like_post_container">
                         <i onClick={() => like_or_unlike_post()} class="fa fa-heart-o" style={{"fontSize": "30px", cursor: "pointer"}}></i>
-                        <h1 style={{fontSize: "20px", marginTop: "10px", "marginLeft": "10px"}}>{post?.post?.likes?.length}</h1>
+                        <h1 style={{fontSize: "20px", marginTop: "10px", "marginLeft": "10px"}}>{updatedPost?.likes?.length}</h1>
                     </div>
                 ):(
                     <div className="like_post_container">
                         <i onClick={() => like_or_unlike_post()} class="fa fa-heart" style={{"fontSize": "30px", color: "rgb(232, 69, 69)", "cursor": "pointer"}}></i>
-                        <h1 style={{fontSize: "20px", marginTop: "10px", "marginLeft": "10px"}}>{post?.post?.likes?.length}</h1>
+                        <h1 style={{fontSize: "20px", marginTop: "10px", "marginLeft": "10px"}}>{updatedPost?.likes?.length}</h1>
                     </div>
                 )}
 
@@ -204,9 +206,9 @@ const Post = ( post ) => {
             <div style={{width: "90%", "height": "1px", backgroundColor: "white", marginTop:"-10px"}}> </div>
 
 
-            {post?.post?.comments?.length >= 1 ? (
+            {updatedPost?.comments?.length >= 1 ? (
                 <div className={comment_container_parent_class}>
-                    {[...post.post.comments].reverse().map((comment) => (
+                    {[...updatedPost?.comments].reverse().map((comment) => (
                         <Comment comment={comment}/>
                     ))}
                 </div>
@@ -217,7 +219,7 @@ const Post = ( post ) => {
             )}
 
 
-            {post?.post?.comments?.length >= 2 ? (
+            {updatedPost?.comments?.length >= 2 ? (
                 <div style={{"width": "90%"}}>
 
                     {ShowMoreComments === false ? (
@@ -246,10 +248,6 @@ const Post = ( post ) => {
                 <input required minLength={3} type="text" placeholder={"Say something.."} value={UserComment.comment} onChange={(e) => SetUserComment({ ...UserComment, comment: e.target.value, createdAt: new Date(), user_id: current_user.result._id  })} />
                 <button><i class="fa fa-send"></i></button>
             </form>
-
-
-
-
         </div>
     )
 }

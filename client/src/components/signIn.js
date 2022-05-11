@@ -34,7 +34,6 @@ const SignIn = () => {
     };
 
     const UseDemoAccount = async () => {
-        //e.preventDefault();
         let x = dispatch(signin({password: "DemoAccount", email: "DemoAccount@gmail.com"}, navigate));
         if (x !== undefined) {
             navigate("/mainPage")
@@ -42,24 +41,13 @@ const SignIn = () => {
     };
 
     const googleSuccess = async (res) => {
-        
-        //const result = res?.profileObj;
-        //const token = res?.tokenId;
-        //navigate("/mainPage")
-
         try { 
             if (res?.profileObj?.googleId) {
                 dispatch(LoginGoogleUser(res?.profileObj, navigate))
         }} catch (error) {
              console.log(error)
         }
-        
 
-        //try {
-        //    dispatch({type: 'AUTH', data: { result, token }});
-        //} catch (error) {
-        //    console.log(error)
-        //}
     }
 
     const googleFailure = () => {

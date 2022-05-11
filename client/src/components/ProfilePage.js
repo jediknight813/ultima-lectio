@@ -21,7 +21,7 @@ const ProfilePage = () => {
     const [create_edit_post_menu, set_create_edit_post_menu_status] = useState(false)
     var update_post = {type: "update", post: post_to_edit}
     const [bookmarked_posts, set_bookmarked_posts] = useState(undefined)
-
+    const [UpdateParent, SetUpdateParentState] = useState(0)
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
     const navigate = useNavigate()
@@ -80,6 +80,9 @@ const ProfilePage = () => {
         }
     }
 
+    const updateParent = () => {
+        press_button(button_pressed+1)
+    };
 
     function manage_friend_button_submit(type) {
         let random_string = Math.random().toString(30).substring(3,29)
@@ -175,6 +178,17 @@ const ProfilePage = () => {
         set_show_about_me_save_button(false)
     }
 
+    const update_bookmarked_posts = async (bookmarked_posts) => {
+        const api_bookmarks = await api.fetchUserBookMarkedPosts(bookmarked_posts)
+        if (api_bookmarks !== undefined) {
+            set_bookmarked_posts(api_bookmarks)
+            console.log(api_bookmarks)
+        }
+        if (api_bookmarks === undefined) {
+            set_bookmarked_posts([])
+        }
+    }
+
 
     useEffect(() => {  
         const fetchData = async () => {
@@ -183,6 +197,7 @@ const ProfilePage = () => {
                 document.title = data?.username+" Profile"
                 set_profile_data(data)
                 set_profile_about_me(data.about_me)
+                update_bookmarked_posts(data.bookmarked_posts)
             }
 
             const current_user = await api.fetchUser(user_id?.result?._id)
@@ -193,7 +208,6 @@ const ProfilePage = () => {
             check_friend_status(current_user, data)
 
             const api_posts = await api.fetchUserPosts(data._id).catch((e) => {setPosts([])})
-            //console.log(posts?.length)
             if (api_posts !== undefined) {
                 setPosts(api_posts)
             }
@@ -201,15 +215,11 @@ const ProfilePage = () => {
                 setPosts([])
             }
 
-            const api_bookmarks = await api.fetchUserBookMarkedPosts(data.bookmarked_posts).catch((e) => {set_bookmarked_posts([])})
-            if (api_bookmarks !== undefined) {
-                set_bookmarked_posts(api_bookmarks)
-            }
 
         }
         fetchData()
             .catch(console.error);;
-    }, [id, user_id?.result?._id, button_pressed] )
+    }, [id, user_id?.result?._id, button_pressed, ] )
     
     
     function check_token() {
@@ -244,7 +254,6 @@ const ProfilePage = () => {
         try {
           const file = event.target.files[0];
           const image = await resizeFile(file);
-          //console.log(image);
           api.updateUserProfileImage({id: profile_data?._id, image: image})
           profile_data['profile_image'] = image
         } catch (err) {
@@ -358,7 +367,7 @@ const ProfilePage = () => {
                         {(posts?.data !== undefined) && (
                             <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
                                 {[...posts.data].reverse().map((post) => (
-                                    <Post key={post.createdAt} post={post} func={passedFunction} />
+                                    <Post key={post.createdAt} post={post} func={passedFunction} func2={updateParent} />
                                 ))}
                             </div>
                         )}
@@ -369,7 +378,7 @@ const ProfilePage = () => {
                             </div>
                         )}
 
-                        {(posts?.data?.length <= 1) && (
+                        {(posts?.data?.length === 0) && (
                             <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
                                 <h3>{profile_data?.username} hasn't posted anything yet </h3>
                             </div>
@@ -392,7 +401,7 @@ const ProfilePage = () => {
                         {(posts?.data !== undefined) && (
                             <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
                                 {[...posts.data].reverse().map((post) => (
-                                    <Post key={post.createdAt} post={post} func={passedFunction} />
+                                    <Post key={post.createdAt} post={post} func={passedFunction} func2={updateParent} />
                                 ))}
                             </div>
                         )}
@@ -415,7 +424,7 @@ const ProfilePage = () => {
                 {(view_friends_state === true) && (
                     <div style={{"width": "100%", "height": "auto"}}>
                         {(profile_data !== undefined) && (
-                            <div style={{"height": "auto", minHeight: "200px"}} className="view_friends_parent_container">
+                            <div style={{"height": "auto", minHeight: "120px"}} className="view_friends_parent_container">
                                 <div className="view_friends_header">
                                     <h1>Friends</h1>
                                 </div> 
@@ -441,18 +450,18 @@ const ProfilePage = () => {
                     {(bookmarked_posts?.data !== undefined) && (
                         <div style={{"display": "flex", "flexDirection": "column", "gap": "25px"}}>
                             {[...bookmarked_posts.data].reverse().map((post) => (
-                                <Post key={post.createdAt} post={post} func={passedFunction} />
+                                <Post key={post.createdAt} post={post} func={passedFunction} func2={updateParent} />
                             ))}
                         </div>
                     )}
-                    {(bookmarked_posts === undefined) && (
+                    {(bookmarked_posts.data === undefined) && (
                         <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
                             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                             <h1>Loading..</h1>
                         </div>
                     )}
 
-                    {(bookmarked_posts?.length === 0) && (
+                    {(bookmarked_posts?.data?.length === 0) && (
                         <div style={{"alignSelf": "center", display: "flex", flexDirection: "column", alignItems: "center", color: "white", justifyContent: "center"}}>
                             <h3>{profile_data?.username} hasn't saved anything yet </h3>
                         </div>

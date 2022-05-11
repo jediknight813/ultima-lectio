@@ -21,7 +21,6 @@ const PostViewer = () => {
     useEffect(() => {   
         const fetchData = async () => {
             const { data } = await api.fetchPostWithId(id)
-            //console.log(data)
             if (data !== undefined) {
                 setPosts([data])
             }
@@ -45,7 +44,6 @@ const PostViewer = () => {
 
 
     function check_if_search_has_results() {
-        //console.log(posts)
         if (posts === []) {
             if (posts[0] === null) {
                 SetSearchStatus(false)

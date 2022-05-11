@@ -24,8 +24,4 @@ router.post('/updateUserProfileImage/', auth, updateUserProfileImage)
 
 router.patch('/:id/bookmark', auth, bookmarkPost)
 
-//router.delete('/:id', deletePost)
-
-//router.patch('/:id/likePost', likePost)
-
 export default router;

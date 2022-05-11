@@ -5,7 +5,6 @@ import { USER_ID } from '../constants/actionTypes.js';
 export default (user_id = [], action) => {
     switch (action.type) { 
     case USER_ID:
-        //console.log(action.payload)
         return action.payload; 
       default:
         return user_id;

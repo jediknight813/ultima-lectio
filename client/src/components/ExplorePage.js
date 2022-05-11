@@ -13,7 +13,6 @@ const ExplorePage = () => {
     useEffect(() => {   
         const fetchData = async () => {
             const { data } = await api.fetchTags()
-            //console.log(data)
             if (data !== undefined) {
                 data.shift()
                 set_tags(data);

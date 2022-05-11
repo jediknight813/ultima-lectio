@@ -11,7 +11,6 @@ import * as api from '../api/index.js'
 
 
 const MainPage = () => {
-    //console.log("here")
     const navigate = useNavigate()
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
     const dispatch = useDispatch()
@@ -29,7 +28,6 @@ const MainPage = () => {
 
     var update_post = {type: "update", post: post_to_edit}
 
-    //console.log(posts)
 
     const close_create_and_edit_post_menu = () => {
         set_update_post(false)
@@ -69,7 +67,6 @@ const MainPage = () => {
     }
 
     const passedFunction = (data) => {
-        //console.log(data)
         set_post_to_edit(data)
         set_update_post(true)
     };

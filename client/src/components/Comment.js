@@ -13,7 +13,6 @@ const Comment = ( { comment }  ) => {
     useEffect(() => {   
         const fetchData = async () => {
             const { data } = await api.fetchUser(comment?.user_id)
-            //console.log(comment)
             set_comment_user(data, comment);
         }
         fetchData()

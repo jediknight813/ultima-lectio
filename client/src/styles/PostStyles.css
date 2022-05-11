@@ -212,6 +212,8 @@
     margin-left: 8px;
     font-family: "Ubuntu",sans-serif;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 
 .make_a_comment_container {

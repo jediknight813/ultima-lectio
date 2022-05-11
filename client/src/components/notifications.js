@@ -60,13 +60,4 @@ const Notifications = () => {
     )
 }
 
-//<div className="notifications_button_container">
-//    <button> All </button>
-//    <button> Comments </button>
-//    <button> likes </button>
-//    <button> Friend Requests </button>
-//    <button> Saves </button>
-//</div>
-
-
 export default Notifications

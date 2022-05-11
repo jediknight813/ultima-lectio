@@ -21,7 +21,6 @@ const CreateOrEditPost = (data) => {
 
     const [create_post_menu, set_create_post_menu_status] = useState(false)
     const dispatch = useDispatch();  
-    //console.log(activate_data)
     const [image, setImage] = useState()
 
     const logout = () => {
@@ -31,7 +30,7 @@ const CreateOrEditPost = (data) => {
         sessionStorage.clear()
         navigate('/')
     }
-    
+
     useEffect(() => {   
         const fetchData = async () => {
             const { data } = await api.fetchUser(user?.result?._id)
@@ -52,12 +51,10 @@ const CreateOrEditPost = (data) => {
             });
             dispatch(createPost(UserPost));
             clear()
-            //set_create_post_menu_status(false)
             data.close_create_and_edit_post_menu()
         } 
         else {
             e.preventDefault();
-            //console.log(UserPost)
             UserPost.tags = UserPost.tags.map(element => {
                 return element.trim();
             });
@@ -91,14 +88,6 @@ const CreateOrEditPost = (data) => {
             if(decodedToken.exp * 1000 < new Date().getTime()) logout();
         }
 
-        //if (data.CreateOrEditPostData?.post?.likes !== undefined) {
-            //SetUserPost({ ...UserPost, likes: data.CreateOrEditPostData.post.likes })
-            //SetUserPost({...UserPost, likes: data.CreateOrEditPostData.post.comments})
-        //}
-
-        //console.log(data.CreateOrEditPostData?.post?.likes)
-        //console.log(UserPost)
-    
         if (activate_data?.active === true) {
             set_create_post_menu_status(true)
         }
@@ -116,8 +105,6 @@ const CreateOrEditPost = (data) => {
         upload_button_text = "update post"
     }
     
-//<FileBase type="file" multiple={false} onDone={({ base64 }) =>  SetUserPost({ ...UserPost, selectedFile: base64 })} /> 
-
 const resizeFile = (file) =>
     new Promise((resolve) => {
         Resizer.imageFileResizer(
@@ -139,7 +126,6 @@ const resizeFile = (file) =>
           const file = event.target.files[0];
           const image = await resizeFile(file);
           SetUserPost({ ...UserPost, selectedFile: image })
-          //console.log(image);
         } catch (err) {
           console.log(err);
         }

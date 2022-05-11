@@ -31,8 +31,6 @@ export const createNewUserForDb = (post) => async (dispatch) => {
     try {
         const { data } = await api.LoginCurrentUser(user);
         console.log(data)
-        //dispatch({ type: CREATE_USER, payload: data });
-
         dispatch({ type: USER_ID, payload: data });
 
         return data

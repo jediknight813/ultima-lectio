@@ -6,7 +6,6 @@ import moment from 'moment';
 
 
 const NotificationsChild = ( {notification} ) => {
-    //console.log(notification)
     const [notification_from, set_notification_from] = useState(undefined)
     const [notification_parent_background, set_notification_parent_background] = useState("notification_child_parent")
     const navigate = useNavigate()

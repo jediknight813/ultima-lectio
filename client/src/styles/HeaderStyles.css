@@ -247,5 +247,10 @@
         display: block;
         visibility: hidden;
     }
+
+    .username_and_image_parent{
+        width: auto;
+        margin-right: 25px;
+    }
    
 }
